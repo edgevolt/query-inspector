@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Interactive query language explainer that breaks down KQL, SQL, and other queries with visual indicators and detailed explanations.">
+  <meta name="keywords" content="KQL, SQL, Query Language, Kusto, Explainer, Tutorial, Learn">
+  <title>Inspector - Understand Your Queries</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-text">
+          <h1><span id="language-name">KQL</span> - Inspector</h1>
+          <p id="language-description">Understand your Kusto Query Language statements with visual breakdowns and
+            detailed explanations</p>
+        </div>
+        <div class="language-selector-container">
+          <label for="language-selector" class="sr-only">Select query language</label>
+          <select id="language-selector" class="language-selector" aria-label="Select query language">
+            <option value="kql">📊 KQL</option>
+            <!-- Future languages will be added here dynamically -->
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section">
+      <label for="query-input" class="input-label" id="query-input-label">Enter your query:</label>
+      <textarea id="query-input" class="query-input"
+        placeholder="SecurityEvent | where TimeGenerated > ago(1h) | take 10" aria-label="Query input"></textarea>
+    </section>
+
+    <!-- Explanation Section -->
+    <section class="explanation-section">
+      <h2 class="input-label">Explanation:</h2>
+      <div id="explanation-container" class="explanation-container">
+        <div class="explanation-empty">
+          Enter a KQL query above to see a detailed explanation
+        </div>
+      </div>
+
+      <!-- Info Panel for selected token -->
+      <div id="info-panel" class="info-panel" style="display: none;">
+        <div class="info-panel-header">
+          <h3 id="info-panel-title"></h3>
+          <button id="info-panel-close" class="info-panel-close" aria-label="Close info panel">×</button>
+        </div>
+        <div id="info-panel-content"></div>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="examples-section">
+      <h2 class="examples-title">Example Queries</h2>
+      <div class="examples-grid" id="examples-grid">
+        <!-- Examples will be populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        <strong>explain.getstat.dev</strong> - Learn query languages interactively
+      </p>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+
+</html>
