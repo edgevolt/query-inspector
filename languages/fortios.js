@@ -1,0 +1,456 @@
+// FortiOS CLI Knowledge Base - Explanations for diagnostic and execute commands
+
+export const fortiosKnowledge = {
+    // Primary command types
+    commandTypes: {
+        'diagnose': {
+            type: 'command',
+            description: 'Diagnostic commands for troubleshooting and monitoring',
+            syntax: 'diagnose <subsystem> <command> [options]',
+            example: 'diagnose sys session list',
+            details: 'Diagnose commands provide detailed system information, troubleshooting data, and monitoring capabilities. These are read-only commands that do not modify system configuration.',
+            docUrl: 'https://docs.fortinet.com/document/fortigate/7.4.0/cli-reference'
+        },
+        'execute': {
+            type: 'command',
+            description: 'Execute operational commands and system actions',
+            syntax: 'execute <command> [parameters]',
+            example: 'execute ping 8.8.8.8',
+            details: 'Execute commands perform actions such as network tests, system operations, backup/restore, and configuration changes. Some commands may modify system state.',
+            docUrl: 'https://docs.fortinet.com/document/fortigate/7.4.0/cli-reference'
+        },
+        'get': {
+            type: 'command',
+            description: 'Display configuration settings',
+            syntax: 'get <object>',
+            example: 'get system status',
+            details: 'Get commands retrieve and display current configuration settings and system information.'
+        },
+        'show': {
+            type: 'command',
+            description: 'Display configuration in script format',
+            syntax: 'show <object>',
+            example: 'show system interface',
+            details: 'Show commands display configuration in a format that can be used in scripts or for backup purposes.'
+        }
+    },
+
+    // Diagnose subsystems
+    diagnoseCommands: {
+        'sys': {
+            type: 'subsystem',
+            description: 'System diagnostics and monitoring',
+            syntax: 'diagnose sys <command>',
+            example: 'diagnose sys top',
+            details: 'System-level diagnostics including process monitoring, resource usage, sessions, and performance metrics.',
+            subcommands: {
+                'session': 'View and filter active sessions',
+                'top': 'Display top processes by CPU/memory usage',
+                'top-summary': 'Show summary of system resources',
+                'ha': 'High Availability status and diagnostics',
+                'status': 'Display system status information',
+                'performance': 'Show performance statistics',
+                'process': 'Process information and management'
+            }
+        },
+        'debug': {
+            type: 'subsystem',
+            description: 'Enable debug output for troubleshooting',
+            syntax: 'diagnose debug <subsystem>',
+            example: 'diagnose debug application httpsd -1',
+            details: 'Debug commands enable detailed logging for specific subsystems. Use with caution in production environments as it can generate significant output.',
+            subcommands: {
+                'enable': 'Enable debug output',
+                'disable': 'Disable debug output',
+                'reset': 'Reset debug settings',
+                'application': 'Debug specific applications',
+                'flow': 'Debug traffic flow',
+                'console': 'Configure console debug output'
+            }
+        },
+        'firewall': {
+            type: 'subsystem',
+            description: 'Firewall diagnostics and session information',
+            syntax: 'diagnose firewall <command>',
+            example: 'diagnose firewall proute list',
+            details: 'Firewall-related diagnostics including policy routing, authentication, and connection tracking.',
+            subcommands: {
+                'proute': 'Policy-based routing information',
+                'auth': 'Authentication information',
+                'iprope': 'IP reputation diagnostics',
+                'session': 'Session table information'
+            }
+        },
+        'vpn': {
+            type: 'subsystem',
+            description: 'VPN tunnel diagnostics',
+            syntax: 'diagnose vpn <type>',
+            example: 'diagnose vpn tunnel list',
+            details: 'VPN diagnostics for IPsec, SSL VPN, and tunnel status monitoring.',
+            subcommands: {
+                'tunnel': 'IPsec tunnel status and information',
+                'ike': 'IKE gateway diagnostics',
+                'ssl': 'SSL VPN diagnostics',
+                'ipsec': 'IPsec diagnostics'
+            }
+        },
+        'ip': {
+            type: 'subsystem',
+            description: 'IP networking diagnostics',
+            syntax: 'diagnose ip <command>',
+            example: 'diagnose ip arp list',
+            details: 'IP layer diagnostics including routing, ARP tables, and address information.',
+            subcommands: {
+                'arp': 'ARP table information',
+                'route': 'Routing table diagnostics',
+                'address': 'IP address information'
+            }
+        },
+        'hardware': {
+            type: 'subsystem',
+            description: 'Hardware diagnostics and information',
+            syntax: 'diagnose hardware <component>',
+            example: 'diagnose hardware deviceinfo disk',
+            details: 'Hardware component diagnostics including disk, memory, and device information.',
+            subcommands: {
+                'deviceinfo': 'Device hardware information',
+                'sysinfo': 'System hardware details'
+            }
+        },
+        'npu': {
+            type: 'subsystem',
+            description: 'Network Processing Unit diagnostics',
+            syntax: 'diagnose npu <command>',
+            example: 'diagnose npu sniffer',
+            details: 'NPU diagnostics for hyperscale FortiGate devices with hardware acceleration.',
+            subcommands: {
+                'sniffer': 'Capture traffic on NPU',
+                'session': 'NPU session information'
+            }
+        }
+    },
+
+    // Execute commands
+    executeCommands: {
+        'ping': {
+            type: 'command',
+            description: 'Send ICMP echo requests to test connectivity',
+            syntax: 'execute ping [options] <host>',
+            example: 'execute ping 8.8.8.8',
+            details: 'Tests network connectivity by sending ICMP echo requests. Supports various options for packet size, count, and source interface.',
+            docUrl: 'https://docs.fortinet.com/document/fortigate/7.4.0/cli-reference'
+        },
+        'traceroute': {
+            type: 'command',
+            description: 'Trace the route packets take to a destination',
+            syntax: 'execute traceroute <host>',
+            example: 'execute traceroute www.fortinet.com',
+            details: 'Shows the path packets take through the network to reach a destination, including all intermediate hops.'
+        },
+        'telnet': {
+            type: 'command',
+            description: 'Open a Telnet connection',
+            syntax: 'execute telnet <host> [port]',
+            example: 'execute telnet 192.168.1.1 80',
+            details: 'Establishes a Telnet connection to test TCP connectivity on specific ports.'
+        },
+        'ssh': {
+            type: 'command',
+            description: 'Open an SSH connection',
+            syntax: 'execute ssh <user>@<host>',
+            example: 'execute ssh admin@192.168.1.1',
+            details: 'Establishes an SSH connection to remote hosts for secure management.'
+        },
+        'reboot': {
+            type: 'command',
+            description: 'Reboot the FortiGate system',
+            syntax: 'execute reboot',
+            example: 'execute reboot',
+            details: 'Performs a system reboot. You will be prompted to confirm this action. Use with caution in production environments.'
+        },
+        'shutdown': {
+            type: 'command',
+            description: 'Shut down the FortiGate system',
+            syntax: 'execute shutdown',
+            example: 'execute shutdown',
+            details: 'Performs a clean system shutdown. Requires confirmation. The system will need to be powered on manually.'
+        },
+        'factoryreset': {
+            type: 'command',
+            description: 'Reset system to factory defaults',
+            syntax: 'execute factoryreset',
+            example: 'execute factoryreset',
+            details: 'WARNING: This command erases all configuration and data, returning the system to factory default state. Cannot be undone.'
+        },
+        'backup': {
+            type: 'command',
+            description: 'Backup system configuration',
+            syntax: 'execute backup <type> <destination>',
+            example: 'execute backup config tftp backup.conf 192.168.1.100',
+            details: 'Backs up the system configuration to various destinations including TFTP, FTP, USB, or local disk.'
+        },
+        'restore': {
+            type: 'command',
+            description: 'Restore system configuration',
+            syntax: 'execute restore <type> <source>',
+            example: 'execute restore config tftp backup.conf 192.168.1.100',
+            details: 'Restores system configuration from a backup file. System will reboot after successful restore.'
+        },
+        'date': {
+            type: 'command',
+            description: 'Display or set system date',
+            syntax: 'execute date',
+            example: 'execute date',
+            details: 'Shows the current system date. Can be used to verify time synchronization.'
+        },
+        'time': {
+            type: 'command',
+            description: 'Display or set system time',
+            syntax: 'execute time',
+            example: 'execute time',
+            details: 'Shows the current system time. Important for log correlation and certificate validation.'
+        },
+        'disconnect-admin-session': {
+            type: 'command',
+            description: 'Disconnect an administrator session',
+            syntax: 'execute disconnect-admin-session <session-id>',
+            example: 'execute disconnect-admin-session 5',
+            details: 'Forcefully disconnects an active administrator session. Useful for security or troubleshooting.'
+        },
+        'clear': {
+            type: 'command',
+            description: 'Clear system tables or counters',
+            syntax: 'execute clear <object>',
+            example: 'execute clear system arp table',
+            details: 'Clears various system tables, counters, or cached information.'
+        }
+    },
+
+    // Common keywords and modifiers
+    keywords: {
+        'list': {
+            type: 'keyword',
+            description: 'Display a list of items',
+            details: 'Shows all entries in a table or collection. Often used with session, tunnel, or routing commands.'
+        },
+        'filter': {
+            type: 'keyword',
+            description: 'Apply filters to narrow results',
+            details: 'Filters output based on specific criteria such as IP address, port, or protocol.'
+        },
+        'clear': {
+            type: 'keyword',
+            description: 'Clear or reset data',
+            details: 'Removes entries from tables or resets counters to zero.'
+        },
+        'status': {
+            type: 'keyword',
+            description: 'Show status information',
+            details: 'Displays current operational status of a component or service.'
+        },
+        'enable': {
+            type: 'keyword',
+            description: 'Enable a feature or debug output',
+            details: 'Activates a feature, service, or debug logging.'
+        },
+        'disable': {
+            type: 'keyword',
+            description: 'Disable a feature or debug output',
+            details: 'Deactivates a feature, service, or debug logging.'
+        },
+        'config': {
+            type: 'keyword',
+            description: 'Configuration file or settings',
+            details: 'Refers to configuration data, often used in backup/restore operations.'
+        },
+        'tftp': {
+            type: 'keyword',
+            description: 'TFTP protocol for file transfer',
+            details: 'Trivial File Transfer Protocol, commonly used for backup and restore operations.'
+        },
+        'tunnel': {
+            type: 'keyword',
+            description: 'VPN tunnel',
+            details: 'Refers to VPN tunnel connections, either IPsec or SSL VPN.'
+        },
+        'table': {
+            type: 'keyword',
+            description: 'Data table',
+            details: 'Refers to system tables such as routing table, ARP table, or session table.'
+        }
+    },
+
+    // Common options and flags
+    options: {
+        '-1': {
+            type: 'option',
+            description: 'Enable all debug levels',
+            details: 'Sets debug level to maximum verbosity. Use with caution as it generates extensive output.'
+        },
+        '-c': {
+            type: 'option',
+            description: 'Count option',
+            details: 'Specifies the number of iterations or packets (e.g., ping count).'
+        },
+        '-s': {
+            type: 'option',
+            description: 'Size option',
+            details: 'Specifies packet size or data size.'
+        },
+        '-t': {
+            type: 'option',
+            description: 'Timeout option',
+            details: 'Specifies timeout duration for operations.'
+        }
+    }
+};
+
+// Tokenizer for FortiOS CLI commands
+export function tokenize(command) {
+    const tokens = [];
+    let lastIndex = 0;
+    const regex = /([a-zA-Z_][\w-]*)|(\d+\.\d+\.\d+\.\d+)|(\d+)|("[^"]*")|('[^']*')|(-[\w]+)|([<>!=]+)|([|&;()])|(\S+)/g;
+    
+    let match;
+    while ((match = regex.exec(command)) !== null) {
+        // Add whitespace token if there's a gap
+        if (match.index > lastIndex) {
+            tokens.push({
+                value: command.substring(lastIndex, match.index),
+                type: 'whitespace',
+                start: lastIndex,
+                end: match.index
+            });
+        }
+        
+        const value = match[0];
+        let type = 'identifier';
+        
+        // Determine token type
+        if (match[1]) {
+            // Word token - could be command, keyword, or identifier
+            const lower = value.toLowerCase();
+            if (fortiosKnowledge.commandTypes[lower]) {
+                type = 'command';
+            } else if (fortiosKnowledge.diagnoseCommands[lower]) {
+                type = 'subsystem';
+            } else if (fortiosKnowledge.executeCommands[lower]) {
+                type = 'execute-command';
+            } else if (fortiosKnowledge.keywords[lower]) {
+                type = 'keyword';
+            } else {
+                type = 'identifier';
+            }
+        } else if (match[2]) {
+            type = 'ip-address';
+        } else if (match[3]) {
+            type = 'number';
+        } else if (match[4] || match[5]) {
+            type = 'string';
+        } else if (match[6]) {
+            type = 'option';
+        } else if (match[7]) {
+            type = 'operator';
+        } else if (match[8]) {
+            type = 'punctuation';
+        }
+        
+        tokens.push({
+            value,
+            type,
+            start: match.index,
+            end: match.index + value.length
+        });
+        
+        lastIndex = match.index + value.length;
+    }
+    
+    // Add trailing whitespace if any
+    if (lastIndex < command.length) {
+        tokens.push({
+            value: command.substring(lastIndex),
+            type: 'whitespace',
+            start: lastIndex,
+            end: command.length
+        });
+    }
+    
+    return tokens;
+}
+
+// Helper function to get explanation for any token
+export function getExplanation(token, tokenType) {
+    const lowerToken = token.toLowerCase();
+
+    // Check command types
+    if (fortiosKnowledge.commandTypes[lowerToken]) {
+        return fortiosKnowledge.commandTypes[lowerToken];
+    }
+
+    // Check diagnose subsystems
+    if (fortiosKnowledge.diagnoseCommands[lowerToken]) {
+        return fortiosKnowledge.diagnoseCommands[lowerToken];
+    }
+
+    // Check execute commands
+    if (fortiosKnowledge.executeCommands[lowerToken]) {
+        return fortiosKnowledge.executeCommands[lowerToken];
+    }
+
+    // Check keywords
+    if (fortiosKnowledge.keywords[lowerToken]) {
+        return fortiosKnowledge.keywords[lowerToken];
+    }
+
+    // Check options
+    if (fortiosKnowledge.options[lowerToken]) {
+        return fortiosKnowledge.options[lowerToken];
+    }
+
+    // Default explanations for unknown tokens
+    if (tokenType === 'string') {
+        return {
+            type: 'string',
+            description: 'String literal value',
+            details: 'A text value that may represent a filename, hostname, or other string parameter.'
+        };
+    }
+
+    if (tokenType === 'number') {
+        return {
+            type: 'number',
+            description: 'Numeric value',
+            details: 'A numeric parameter such as count, timeout, or identifier.'
+        };
+    }
+
+    if (tokenType === 'ip-address') {
+        return {
+            type: 'ip-address',
+            description: 'IP address',
+            details: 'An IPv4 address used for network operations, filtering, or identification.'
+        };
+    }
+
+    if (tokenType === 'identifier') {
+        return {
+            type: 'identifier',
+            description: 'Parameter or identifier',
+            details: 'A parameter name, interface name, or other identifier specific to the command context.'
+        };
+    }
+
+    if (tokenType === 'option') {
+        return {
+            type: 'option',
+            description: 'Command option flag',
+            details: 'A command-line option that modifies the behavior of the command.'
+        };
+    }
+
+    return {
+        type: 'unknown',
+        description: token,
+        details: 'Token type not recognized in FortiOS CLI syntax.'
+    };
+}

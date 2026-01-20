@@ -123,6 +123,16 @@ async function loadLanguage(langId) {
     } else if (langId === 'powershell') {
         const { parsePowerShell } = await import('./powershell-parser.js');
         currentParser = parsePowerShell;
+    } else if (langId === 'fortios') {
+        const { tokenize, getExplanation } = await import('./languages/fortios.js');
+        // Create parser function that returns tokens with explanations
+        currentParser = (query) => {
+            const tokens = tokenize(query);
+            return tokens.map(token => ({
+                ...token,
+                explanation: getExplanation(token.value, token.type)
+            }));
+        };
     } else {
         currentParser = null;
     }

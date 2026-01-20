@@ -110,34 +110,85 @@ export const languages = {
         id: 'powershell',
         name: 'PowerShell',
         fullName: 'PowerShell',
-        description: 'Task automation and configuration management framework from Microsoft',
+        description: 'Task automation and configuration management (85+ cmdlets supported)',
         placeholder: 'Get-Process | Where-Object {$_.CPU -gt 10} | Select-Object Name, CPU',
         icon: '⚡',
         module: './languages/powershell.js',
         examples: [
             {
-                title: 'List Files',
-                query: 'Get-ChildItem -Path C:\\Users -Recurse -Filter *.txt'
+                title: 'Discover Commands',
+                query: 'Get-Command -Module Microsoft.PowerShell.Management'
             },
             {
                 title: 'Filter Processes',
                 query: 'Get-Process | Where-Object {$_.CPU -gt 10} | Sort-Object CPU -Descending'
             },
             {
-                title: 'Service Management',
-                query: 'Get-Service | Where-Object {$_.Status -eq "Running"} | Select-Object Name, Status'
+                title: 'Test Network Connection',
+                query: 'Test-Connection -ComputerName google.com -Count 4'
+            },
+            {
+                title: 'Export to JSON',
+                query: 'Get-Service | Select-Object Name, Status | ConvertTo-Json'
+            },
+            {
+                title: 'Query Event Logs',
+                query: 'Get-WinEvent -LogName Application -MaxEvents 10'
             },
             {
                 title: 'Group and Count',
                 query: 'Get-Process | Group-Object ProcessName | Sort-Object Count -Descending'
             },
             {
-                title: 'Web Request',
-                query: 'Invoke-RestMethod -Uri https://api.github.com/users/octocat'
+                title: 'Format as Table',
+                query: 'Get-Process | Format-Table Name, CPU, Memory -AutoSize'
             },
             {
-                title: 'File Operations',
-                query: 'Get-Content -Path log.txt | Where-Object {$_ -match "ERROR"}'
+                title: 'File Search',
+                query: 'Get-ChildItem -Path C:\\Users -Recurse -Filter *.txt'
+            }
+        ]
+    },
+    fortios: {
+        id: 'fortios',
+        name: 'FortiOS',
+        fullName: 'FortiOS CLI',
+        description: 'Command-line interface for FortiGate firewalls (FortiOS 7.4.x+)',
+        placeholder: 'diagnose sys session list',
+        icon: '🛡️',
+        module: './languages/fortios.js',
+        examples: [
+            {
+                title: 'List Active Sessions',
+                query: 'diagnose sys session list'
+            },
+            {
+                title: 'Check System Status',
+                query: 'diagnose sys top-summary'
+            },
+            {
+                title: 'Test Network Connectivity',
+                query: 'execute ping 8.8.8.8'
+            },
+            {
+                title: 'VPN Tunnel Status',
+                query: 'diagnose vpn tunnel list'
+            },
+            {
+                title: 'View ARP Table',
+                query: 'diagnose ip arp list'
+            },
+            {
+                title: 'HA Status Check',
+                query: 'diagnose sys ha status'
+            },
+            {
+                title: 'Backup Configuration',
+                query: 'execute backup config tftp backup.conf 192.168.1.100'
+            },
+            {
+                title: 'Firewall Policy Routes',
+                query: 'diagnose firewall proute list'
             }
         ]
     }

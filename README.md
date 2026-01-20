@@ -10,6 +10,7 @@ A minimalistic web application that explains query language statements with visu
 - 🗄️ **SQL** (Structured Query Language) - Relational databases
 - 📈 **PromQL** (Prometheus Query Language) - Monitoring and metrics
 - ⚡ **PowerShell** - Task automation and configuration management
+- 🛡️ **FortiOS** (FortiOS CLI) - FortiGate firewall commands (7.4.x+)
 
 ## Features
 
@@ -39,10 +40,11 @@ python3 -m http.server 8000
 
 ### Using the Application
 
-1. **Enter a KQL query** in the text area
-2. **Hover over any token** to see detailed explanations
-3. **Click example queries** to load pre-built samples
-4. **On mobile**, tap tokens to view tooltips
+1. **Select a language** from the dropdown menu
+2. **Enter a query or command** in the text area
+3. **Hover over any token** to see detailed explanations
+4. **Click example queries** to load pre-built samples
+5. **On mobile**, tap tokens to view tooltips
 
 ## Supported KQL Features
 

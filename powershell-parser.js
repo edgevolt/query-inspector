@@ -21,7 +21,8 @@ const CMDLET_VERBS = new Set([
     'get', 'set', 'new', 'remove', 'add', 'clear', 'copy', 'move',
     'invoke', 'start', 'stop', 'restart', 'test', 'write', 'read',
     'select', 'where', 'foreach', 'sort', 'group', 'measure',
-    'export', 'import', 'convert', 'join', 'split', 'format'
+    'export', 'import', 'convert', 'join', 'split', 'format',
+    'out', 'compare', 'resolve', 'enter', 'rename'
 ]);
 
 // PowerShell operators
