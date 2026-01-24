@@ -1,6 +1,6 @@
-# Query Inspector
+# Inspector
 
-A minimalistic web application that explains query language statements with visual indicators and interactive info panels. Supports multiple query languages with an extensible architecture.
+A minimalistic web application that explains query language statements and parses log entries with visual indicators and interactive info panels. Supports 20 query languages and firewall/server log formats with an extensible architecture.
 
 **Live at**: [explain.getstat.dev](https://explain.getstat.dev)
 
@@ -28,14 +28,41 @@ A minimalistic web application that explains query language statements with visu
 - 🔎 **OSQuery** - SQL-powered operating system instrumentation and monitoring
 
 
+## Modes
+
+### 🔍 Statement Mode
+Analyze and understand query language statements with interactive parsing and detailed explanations.
+
+### 📋 Log Mode
+Parse and explain firewall and server log entries with field-by-field breakdowns.
+
+#### Supported Log Formats
+- 🔥 **FortiGate** - Fortinet FortiGate firewall logs (80+ field definitions)
+  - Traffic logs (allow/deny)
+  - UTM logs (virus, IPS, application control)
+  - VPN connection logs
+  - Security event logs
+
 ## Features
 
+### Statement Mode
 - 🔍 **Interactive Query Parsing** - Real-time parsing and explanation of queries
 - 🎨 **Visual Syntax Highlighting** - Color-coded tokens for operators, functions, keywords, and more
 - 💡 **Detailed Info Panel** - Click any token to see comprehensive explanations with documentation links
+- 🎯 **Example Queries** - Pre-built examples to get started quickly
+- 📚 **20 Languages Supported** - From SQL to Yara-L
+
+### Log Mode
+- 📋 **Automatic Field Parsing** - Extracts all fields from log entries
+- 🎨 **Color-Coded Categories** - Fields grouped by type (source, destination, action, etc.)
+- 💡 **Field Explanations** - Click any field to see detailed descriptions and examples
+- 📊 **Statistics** - Automatic aggregation for multiple log entries
+- 🔍 **Auto-Detection** - Automatically identify log format
+- 🎯 **Example Logs** - Pre-built log samples for testing
+
+### General
 - 📱 **Mobile-Friendly** - Fully responsive design optimized for learning on the go
 - ⚡ **Fast & Lightweight** - Pure vanilla JavaScript, no frameworks required
-- 🎯 **Example Queries** - Pre-built examples to get started quickly
 
 ## Usage
 
@@ -56,11 +83,19 @@ python3 -m http.server 8000
 
 ### Using the Application
 
+#### Statement Mode
 1. **Select a language** from the dropdown menu
 2. **Enter a query or command** in the text area
-3. **Hover over any token** to see detailed explanations
+3. **Click any token** to see detailed explanations in the info panel
 4. **Click example queries** to load pre-built samples
-5. **On mobile**, tap tokens to view tooltips
+
+#### Log Mode
+1. **Click "📋 Log Mode"** to switch to log parsing
+2. **Select a log format** from the dropdown (or use Auto-Detect)
+3. **Paste one or more log entries** in the text area
+4. **View parsed fields** in the color-coded table
+5. **Click any field** to see detailed explanations
+6. **View statistics** when parsing multiple logs
 
 ## Supported KQL Features
 
@@ -91,21 +126,44 @@ python3 -m http.server 8000
 ## Architecture
 
 ```
-explain/
-├── index.html          # Main HTML structure
-├── style.css           # Minimalistic design system
-├── main.js             # Application logic and UI
-├── app.js              # KQL parser and tokenizer
-├── kql-knowledge.js    # Knowledge base with explanations
-└── README.md           # This file
+query-inspector/
+├── index.html              # Main HTML structure
+├── style.css               # Minimalistic design system
+├── main.js                 # Application logic and UI
+├── languages.js            # Language registry
+├── log-formats.js          # Log format registry
+├── log-mode.js             # Log parsing mode handler
+├── parsers/
+│   ├── statements/         # Query/shell parsers (18 files)
+│   │   ├── app.js          # KQL parser
+│   │   ├── sql-parser.js
+│   │   ├── yaral-parser.js
+│   │   └── ...
+│   └── logs/              # Log parsers (1 file)
+│       └── fortinet.js    # FortiGate parser
+└── knowledge/
+    ├── statements/        # Query/shell knowledge bases (20 files)
+    │   ├── kql.js
+    │   ├── sql.js
+    │   └── ...
+    └── logs/             # Log knowledge bases (1 file)
+        └── fortinet.js   # FortiGate field definitions
 ```
 
 ### How It Works
 
-1. **Tokenization** (`app.js`) - The query is broken down into tokens (operators, functions, keywords, strings, numbers, etc.)
-2. **Enrichment** (`kql-knowledge.js`) - Each token is matched with explanation data from the knowledge base
-3. **Rendering** (`main.js`) - Tokens are rendered with color coding and interactive tooltips
-4. **Interaction** - Users can hover (desktop) or tap (mobile) to see detailed explanations
+#### Statement Mode
+1. **Tokenization** (`parsers/statements/*.js`) - Queries are broken down into tokens (operators, functions, keywords, etc.)
+2. **Enrichment** (`knowledge/statements/*.js`) - Each token is matched with explanation data from the knowledge base
+3. **Rendering** (`main.js`) - Tokens are rendered with color coding and interactive info panels
+4. **Interaction** - Users can click tokens to see detailed explanations
+
+#### Log Mode
+1. **Format Detection** (`log-formats.js`) - Automatically identify log format or allow manual selection
+2. **Parsing** (`parsers/logs/*.js`) - Log entries are parsed into field-value pairs
+3. **Enrichment** (`knowledge/logs/*.js`) - Each field is matched with metadata (description, category, examples)
+4. **Rendering** (`log-mode.js`) - Fields are displayed in a color-coded table by category
+5. **Statistics** - Aggregate data is calculated for multiple log entries
 
 ## Extending the Application
 
@@ -136,6 +194,40 @@ Edit `main.js` and add to the `examples` array:
 }
 ```
 
+### Adding a New Log Format
+
+1. **Create parser** in `parsers/logs/yourformat.js`:
+```javascript
+export function parseLog(logLine) {
+  // Parse log and return object with field-value pairs
+  return { field1: value1, field2: value2 };
+}
+```
+
+2. **Create knowledge base** in `knowledge/logs/yourformat.js`:
+```javascript
+export default {
+  field1: {
+    description: 'Field description',
+    category: 'source', // source, destination, action, etc.
+    examples: ['example1', 'example2']
+  }
+};
+```
+
+3. **Register format** in `log-formats.js`:
+```javascript
+export const logFormats = {
+  yourformat: {
+    id: 'yourformat',
+    name: 'Your Format',
+    emoji: '🔥',
+    description: 'Description',
+    examples: [{ title: 'Example', log: '...' }]
+  }
+};
+```
+
 ## Design Philosophy
 
 - **Minimalistic** - Clean, distraction-free interface focused on readability
@@ -160,8 +252,9 @@ Works on all modern browsers:
 
 Contributions are welcome! Feel free to:
 - Add support for new query languages
+- Add support for new log formats (Palo Alto, Cisco ASA, pfSense, etc.)
 - Improve existing explanations
-- Add more KQL operators and functions
+- Add more operators and functions
 - Enhance the UI/UX
 - Report bugs or suggest features
 
