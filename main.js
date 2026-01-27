@@ -3,6 +3,7 @@
 import { parseKQL } from './parsers/statements/app.js';
 import { getLanguage, getAllLanguages, getDefaultLanguage } from './languages.js';
 import { initLogMode } from './log-mode.js';
+import { initRegexMode } from './regex-mode.js';
 
 // Current language state
 let currentLanguage = null;
@@ -49,6 +50,9 @@ async function init() {
 
     // Initialize log mode
     initLogMode();
+
+    // Initialize regex mode
+    initRegexMode();
 
     // Check for initial query
     const initialQuery = urlParams.get('q');

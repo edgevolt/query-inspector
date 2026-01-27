@@ -31,6 +31,9 @@
       <button id="log-mode-btn" class="mode-btn" aria-label="Switch to Log Mode">
         📋 Log Mode
       </button>
+      <button id="regex-mode-btn" class="mode-btn" aria-label="Switch to Regex Mode">
+        🔤 Regex Mode
+      </button>
     </div>
 
     <!-- Statement Mode Container (query language parsing) -->
@@ -126,6 +129,143 @@
       </section>
     </div> <!-- End Log Mode Container -->
 
+    <!-- Regex Mode Container -->
+    <div id="regex-mode-container" class="mode-container">
+      <section class="regex-header">
+        <h2>🔤 Regex Parser</h2>
+        <p>Build, test, and understand regular expressions with interactive explanations</p>
+      </section>
+
+      <section class="regex-pattern-section">
+        <label for="regex-pattern-input" class="input-label">Regular Expression Pattern:</label>
+        <textarea id="regex-pattern-input" class="regex-pattern-input"
+          placeholder="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"></textarea>
+
+        <div class="regex-flags-container">
+          <label class="input-label">Flags:</label>
+          <div class="regex-flags">
+            <label class="flag-checkbox"
+              title="Case Insensitive: Makes the pattern match regardless of letter case. Example: /hello/i matches 'Hello', 'HELLO', 'hello'">
+              <input type="checkbox" id="flag-i">
+              <span class="flag-label">i</span>
+              <span class="flag-description">Case Insensitive</span>
+            </label>
+            <label class="flag-checkbox"
+              title="Global: Find all matches in the string, not just the first one. Example: /a/g finds all 'a' characters">
+              <input type="checkbox" id="flag-g" checked>
+              <span class="flag-label">g</span>
+              <span class="flag-description">Global</span>
+            </label>
+            <label class="flag-checkbox"
+              title="Multiline: Makes ^ and $ match line breaks. Example: /^line/m matches 'line' at the start of any line">
+              <input type="checkbox" id="flag-m">
+              <span class="flag-label">m</span>
+              <span class="flag-description">Multiline</span>
+            </label>
+            <label class="flag-checkbox"
+              title="Dotall: Makes . match newline characters. Example: /a.b/s matches 'a\nb'">
+              <input type="checkbox" id="flag-s">
+              <span class="flag-label">s</span>
+              <span class="flag-description">Dotall</span>
+            </label>
+            <label class="flag-checkbox"
+              title="Unicode: Enables full Unicode support. Required for \p{}, emoji, and characters beyond Basic Latin">
+              <input type="checkbox" id="flag-u">
+              <span class="flag-label">u</span>
+              <span class="flag-description">Unicode</span>
+            </label>
+            <label class="flag-checkbox"
+              title="Sticky: Matches only at the exact position (lastIndex). Useful for parsers and tokenizers">
+              <input type="checkbox" id="flag-y">
+              <span class="flag-label">y</span>
+              <span class="flag-description">Sticky</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="regex-breakdown-section">
+        <h3 class="input-label">Pattern Breakdown:</h3>
+        <div id="regex-breakdown-container" class="regex-breakdown-container">
+          <div class="explanation-empty">Enter a regex pattern above to see a detailed breakdown</div>
+        </div>
+      </section>
+
+      <!-- Color Legend -->
+      <section class="regex-color-legend">
+        <details>
+          <summary class="legend-title">🎨 Color Guide</summary>
+          <div class="legend-content">
+            <div class="legend-item">
+              <span class="legend-color" style="background: #0066cc;"></span>
+              <span class="legend-label"><strong>Blue</strong> - Character classes & sets (<code>\d</code>,
+                <code>[a-z]</code>)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #7c3aed;"></span>
+              <span class="legend-label"><strong>Purple</strong> - Groups & captures (<code>(...)</code>,
+                <code>(?&lt;name&gt;...)</code>)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #dc2626;"></span>
+              <span class="legend-label"><strong>Red</strong> - Quantifiers (<code>*</code>, <code>+</code>,
+                <code>?</code>, <code>{2,5}</code>)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #059669;"></span>
+              <span class="legend-label"><strong>Green</strong> - Anchors & boundaries (<code>^</code>, <code>$</code>,
+                <code>\b</code>)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #6b7280;"></span>
+              <span class="legend-label"><strong>Gray</strong> - Alternation & operators (<code>|</code>)</span>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Info Panel for token explanations -->
+      <section class="regex-info-section" style="display: none;">
+        <div id="regex-info-panel" class="info-panel">
+          <div class="info-panel-header">
+            <h3 id="regex-info-panel-title"></h3>
+            <button id="regex-info-panel-close" class="info-panel-close" aria-label="Close info panel">×</button>
+          </div>
+          <div id="regex-info-panel-content"></div>
+        </div>
+      </section>
+
+      <section class="regex-test-section">
+        <label for="regex-test-input" class="input-label">Test String:</label>
+        <textarea id="regex-test-input" class="regex-test-input"
+          placeholder="Enter text to test your regex pattern..."></textarea>
+      </section>
+
+      <section class="regex-matches-section" style="display: none;">
+        <h3 class="input-label">Matches:</h3>
+        <div id="regex-matches-container" class="regex-matches-container"></div>
+
+        <div id="regex-match-stats" class="regex-match-stats"></div>
+      </section>
+
+      <section class="regex-groups-section" style="display: none;">
+        <h3 class="input-label">Capture Groups:</h3>
+        <div id="regex-groups-container" class="regex-groups-container"></div>
+      </section>
+
+      <section class="regex-examples-section">
+        <h3 class="examples-title">Example Patterns</h3>
+        <div id="regex-examples-grid" class="examples-grid"></div>
+      </section>
+
+      <section class="regex-cheatsheet-section">
+        <details class="regex-cheatsheet">
+          <summary class="cheatsheet-title">📚 Regex Cheat Sheet</summary>
+          <div id="regex-cheatsheet-content" class="cheatsheet-content"></div>
+        </details>
+      </section>
+    </div> <!-- End Regex Mode Container -->
+
     <!-- Footer -->
     <footer class="footer">
       <p>
@@ -134,7 +274,7 @@
     </footer>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="main.js?v=13"></script>
 </body>
 
 </html>

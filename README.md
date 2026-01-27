@@ -1,6 +1,8 @@
 # Inspector
 
-A minimalistic web application that explains query language statements and parses log entries with visual indicators and interactive info panels. Supports 20 query languages and firewall/server log formats with an extensible architecture.
+**Version 2.1.0**
+
+A minimalistic web application that explains query language statements, parses log entries, and helps you understand regular expressions with visual indicators and interactive info panels. Supports 20 query languages, firewall/server log formats, and comprehensive regex pattern analysis with an extensible architecture.
 
 **Live at**: [explain.getstat.dev](https://explain.getstat.dev)
 
@@ -42,6 +44,18 @@ Parse and explain firewall and server log entries with field-by-field breakdowns
   - UTM logs (virus, IPS, application control)
   - VPN connection logs
   - Security event logs
+
+### 🔤 Regex Mode
+Build, test, and understand regular expressions with interactive pattern breakdown and live testing.
+
+#### Features
+- **Pattern Breakdown** - Visual tokenization of regex patterns with 20+ token types
+- **Live Testing** - Test patterns against sample text with real-time match highlighting
+- **Capture Groups** - View all capture groups with names, values, and positions
+- **Flags Support** - Toggle between i, g, m, s, u, y flags
+- **100+ Components** - Comprehensive knowledge base covering all regex features
+- **25+ Examples** - Pre-built patterns for common use cases (email, phone, URL, dates, etc.)
+- **Cheat Sheet** - Quick reference for character classes, quantifiers, anchors, and more
 
 ## Features
 

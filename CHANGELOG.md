@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-01-27
+
+### Added
+- **Regex Mode** - Comprehensive regular expression parser and testing tool
+  - **Pattern Breakdown** - Visual tokenization with 20+ token types
+    - Character classes (`.`, `\d`, `\w`, `\s`, POSIX, Unicode properties)
+    - Quantifiers (greedy, lazy, possessive: `*`, `+`, `?`, `{n,m}`)
+    - Anchors and boundaries (`^`, `$`, `\b`, `\A`, `\Z`, `\G`)
+    - Groups (capturing, non-capturing, named, atomic, conditional)
+    - Assertions (lookahead/lookbehind, positive/negative)
+    - Backreferences (numbered, named, relative)
+    - Escape sequences (control, hex, unicode, octal)
+    - Special constructs (recursion, subroutines, verbs)
+  - **Live Pattern Testing** - Real-time matching with multi-color highlighting
+  - **Capture Groups Display** - Table showing group names, values, and positions
+  - **Match Statistics** - Total matches and unique match counts
+  - **Flags Support** - Interactive toggles for i, g, m, s, u, y flags
+  - **100+ Knowledge Base Entries** - Detailed explanations for all regex components
+  - **25+ Example Patterns** covering:
+    - Text validation (email, phone, URL, IP addresses, MAC addresses)
+    - Date & time formats (MM/DD/YYYY, ISO 8601, 12/24-hour)
+    - Password validation (strength requirements)
+    - Code & markup (HTML tags, comments, CSS colors)
+    - Data extraction (hashtags, mentions, numbers, currency)
+    - Advanced patterns (duplicate words, file paths, credit cards, SSN, ZIP codes)
+  - **Interactive Cheat Sheet** - Collapsible quick reference with 50+ regex components
+
+## [2.0.0] - 2026-01-24
+
 ### Added
 - **Yara-L Language Support** - Comprehensive support for Google Chronicle's Yara-L detection rule language
   - Complete knowledge base with 200+ Yara-L features
