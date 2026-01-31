@@ -34,6 +34,9 @@
       <button id="regex-mode-btn" class="mode-btn" aria-label="Switch to Regex Mode">
         🔤 Regex Mode
       </button>
+      <button id="email-mode-btn" class="mode-btn" aria-label="Switch to Email Mode">
+        📧 Email Mode
+      </button>
     </div>
 
     <!-- Statement Mode Container (query language parsing) -->
@@ -113,11 +116,6 @@
           placeholder="Paste your log entries here (one or multiple lines)..."></textarea>
       </section>
 
-      <section class="log-results-section">
-        <h3 class="input-label">Parsed Fields:</h3>
-        <div id="parsed-fields-container" class="parsed-fields-container"></div>
-      </section>
-
       <!-- Color Legend -->
       <section class="log-color-legend">
         <details>
@@ -125,11 +123,13 @@
           <div class="legend-content">
             <div class="legend-item">
               <span class="legend-color" style="background: #3b82f6;"></span>
-              <span class="legend-label"><strong>Blue</strong> - Source information (IP, port, zone, user, device)</span>
+              <span class="legend-label"><strong>Blue</strong> - Source information (IP, port, zone, user,
+                device)</span>
             </div>
             <div class="legend-item">
               <span class="legend-color" style="background: #10b981;"></span>
-              <span class="legend-label"><strong>Green</strong> - Destination information (IP, port, zone, user, device)</span>
+              <span class="legend-label"><strong>Green</strong> - Destination information (IP, port, zone, user,
+                device)</span>
             </div>
             <div class="legend-item">
               <span class="legend-color" style="background: #ef4444;"></span>
@@ -161,6 +161,11 @@
             </div>
           </div>
         </details>
+      </section>
+
+      <section class="log-results-section">
+        <h3 class="input-label">Parsed Fields:</h3>
+        <div id="parsed-fields-container" class="parsed-fields-container"></div>
       </section>
 
       <section class="log-statistics-section" style="display: none;">
@@ -311,6 +316,73 @@
       </section>
     </div> <!-- End Regex Mode Container -->
 
+    <!-- Email Mode Container -->
+    <div id="email-mode-container" class="mode-container">
+      <section class="email-header">
+        <h2>📧 Email Header Parser</h2>
+        <p>Parse and analyze SMTP email headers with RFC 5322/5321 compliance</p>
+      </section>
+
+      <section class="email-input-section">
+        <label for="email-input" class="input-label">Paste Email Headers:</label>
+        <textarea id="email-input" class="email-input"
+          placeholder="Paste email headers here (From:, To:, Subject:, Received:, etc.)..."></textarea>
+      </section>
+
+      <section class="email-routing-section" style="display: none;">
+        <h3 class="input-label">📬 Email Routing Path:</h3>
+        <div id="email-routing-container" class="email-routing-container"></div>
+      </section>
+
+      <!-- Color Legend for Header Categories -->
+      <section class="email-color-legend">
+        <details>
+          <summary class="legend-title">🎨 Header Category Colors</summary>
+          <div class="legend-content">
+            <div class="legend-item">
+              <span class="legend-color" style="background: #3b82f6;"></span>
+              <span class="legend-label"><strong>Blue</strong> - Source information (From, Sender, Reply-To)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #10b981;"></span>
+              <span class="legend-label"><strong>Green</strong> - Destination (To, Cc, Bcc)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #f59e0b;"></span>
+              <span class="legend-label"><strong>Orange</strong> - Timestamp (Date, Received)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #8b5cf6;"></span>
+              <span class="legend-label"><strong>Purple</strong> - Routing (Message-ID, References, In-Reply-To)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #ec4899;"></span>
+              <span class="legend-label"><strong>Pink</strong> - Content (Subject, Content-Type, MIME-Version)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #ef4444;"></span>
+              <span class="legend-label"><strong>Red</strong> - Security (DKIM, SPF, DMARC,
+                Authentication-Results)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #6b7280;"></span>
+              <span class="legend-label"><strong>Gray</strong> - Metadata (X-Mailer, Priority, List-* headers)</span>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="email-results-section">
+        <h3 class="input-label">📋 Parsed Headers:</h3>
+        <div id="parsed-headers-container" class="parsed-headers-container"></div>
+      </section>
+
+      <section class="email-examples-section">
+        <h3 class="examples-title">Example Email Headers</h3>
+        <div id="email-examples-grid" class="examples-grid"></div>
+      </section>
+    </div> <!-- End Email Mode Container -->
+
     <!-- Footer -->
     <footer class="footer">
       <p>
@@ -319,7 +391,7 @@
     </footer>
   </div>
 
-  <script type="module" src="main.js?v=13"></script>
+  <script type="module" src="main.js?v=14"></script>
 </body>
 
 </html>

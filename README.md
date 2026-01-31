@@ -1,8 +1,8 @@
 # Inspector
 
-**Version 2.2.0**
+**Version 2.3.0**
 
-A minimalistic web application that explains query language statements, parses log entries, and helps you understand regular expressions with visual indicators and interactive info panels. Supports 20 query languages, firewall/server log formats, and comprehensive regex pattern analysis with an extensible architecture.
+A minimalistic web application that explains query language statements, parses log entries, analyzes email headers, and helps you understand regular expressions with visual indicators and interactive info panels. Supports 20 query languages, 3 firewall/server log formats, SMTP email headers with routing visualization, and comprehensive regex pattern analysis with an extensible architecture.
 
 **Live at**: [explain.getstat.dev](https://explain.getstat.dev)
 
@@ -38,6 +38,14 @@ Analyze and understand query language statements with interactive parsing and de
 ### 📋 Log Mode
 Parse and explain firewall and server log entries with field-by-field breakdowns.
 
+### 📧 Email Mode
+Parse and analyze SMTP email headers with RFC 5322/5321 compliance. Features include:
+- 50+ email header field definitions
+- Email routing visualization showing mail server path
+- Support for security headers (DKIM, SPF, DMARC)
+- Multi-line folded header parsing
+- Transit time calculation between hops
+
 #### Supported Log Formats
 - 🔥 **FortiGate (FortiOS 7.x)** - Fortinet FortiGate firewall logs (80+ field definitions)
   - Traffic logs (allow/deny)
@@ -48,9 +56,16 @@ Parse and explain firewall and server log entries with field-by-field breakdowns
   - Traffic logs (allow/deny/drop)
   - Threat logs (spyware, virus, vulnerability, URL filtering)
   - Advanced features (SD-WAN, containers, IoT device context)
+- 🔷 **Check Point (R81.x)** - Check Point firewall logs (80+ field definitions)
+  - Traffic logs (accept/drop)
+  - Threat Prevention (IPS, Anti-Virus, Anti-Bot, URL Filtering)
+  - VPN connection logs
+  - Application Control and Identity Awareness
 
 ### 🔤 Regex Mode
-Build, test, and understand regular expressions with interactive pattern breakdown and live testing.
+Understand regular expressions with visual syntax highlighting, pattern explanations, and interactive testing.
+
+---
 
 #### Features
 - **Pattern Breakdown** - Visual tokenization of regex patterns with 20+ token types
@@ -157,17 +172,19 @@ query-inspector/
 │   │   ├── sql-parser.js
 │   │   ├── yaral-parser.js
 │   │   └── ...
-│   └── logs/              # Log parsers (2 files)
+│   └── logs/              # Log parsers (3 files)
 │       ├── fortinet.js    # FortiGate parser
-│       └── paloalto.js    # Palo Alto parser
+│       ├── paloalto.js    # Palo Alto parser
+│       └── checkpoint.js  # Check Point parser
 └── knowledge/
     ├── statements/        # Query/shell knowledge bases (20 files)
     │   ├── kql.js
     │   ├── sql.js
     │   └── ...
-    └── logs/             # Log knowledge bases (2 files)
+    └── logs/             # Log knowledge bases (3 files)
         ├── fortinet.js   # FortiGate field definitions
-        └── paloalto.js   # Palo Alto field definitions
+        ├── paloalto.js   # Palo Alto field definitions
+        └── checkpoint.js # Check Point field definitions
 ```
 
 ### How It Works

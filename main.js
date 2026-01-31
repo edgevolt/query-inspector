@@ -4,6 +4,7 @@ import { parseKQL } from './parsers/statements/app.js';
 import { getLanguage, getAllLanguages, getDefaultLanguage } from './languages.js';
 import { initLogMode } from './log-mode.js';
 import { initRegexMode } from './regex-mode.js';
+import { initEmailMode } from './email-mode.js';
 
 // Current language state
 let currentLanguage = null;
@@ -53,6 +54,9 @@ async function init() {
 
     // Initialize regex mode
     initRegexMode();
+
+    // Initialize email mode
+    initEmailMode();
 
     // Check for initial query
     const initialQuery = urlParams.get('q');

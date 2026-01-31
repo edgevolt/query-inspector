@@ -1497,3 +1497,373 @@ body {
     padding: 0.5rem;
   }
 }
+
+/* ===== Email Mode Specific Styles ===== */
+.email-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.email-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.email-header p {
+  color: var(--color-text-secondary);
+}
+
+.email-input-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.email-input {
+  width: 100%;
+  min-height: 300px;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  resize: vertical;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-relaxed);
+  transition: border-color var(--transition-base);
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: var(--color-operator);
+  box-shadow: 0 0 0 3px rgba(0, 92, 197, 0.1);
+}
+
+.email-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.email-results-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.parsed-headers-container {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+}
+
+.parsed-headers-container:empty::before {
+  content: 'Parsed email headers will appear here';
+  display: block;
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem;
+}
+
+/* ===== Email Routing Visualization ===== */
+.email-routing-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.email-routing-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 2rem;
+  overflow-x: auto;
+}
+
+.routing-flow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: min-content;
+  padding: 1rem 0;
+}
+
+.routing-hop {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+/* External hop (crossing organization boundaries) */
+.routing-hop-external {
+  border: 3px solid var(--color-operator);
+  box-shadow: 0 0 0 2px rgba(0, 92, 197, 0.1);
+}
+
+.routing-hop:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.hop-number {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: var(--color-operator);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hop-server {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.hop-ip {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.hop-timestamp {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.transit-time {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 92, 197, 0.1);
+  color: var(--color-operator);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Routing arrow container */
+.routing-arrow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0 1rem;
+}
+
+.routing-arrow {
+  color: var(--color-operator);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Transit time on arrow */
+.arrow-transit-time {
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 92, 197, 0.1);
+  color: var(--color-operator);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Encryption badges */
+.encryption-badge {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.encryption-excellent {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.encryption-good {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.encryption-weak {
+  background: rgba(251, 146, 60, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(251, 146, 60, 0.3);
+}
+
+.encryption-none {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.encryption-local {
+  background: rgba(156, 163, 175, 0.15);
+  color: #9ca3af;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+
+
+/* Mobile responsive routing */
+@media (max-width: 768px) {
+  .routing-flow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .routing-arrow {
+    transform: rotate(90deg);
+    align-self: center;
+  }
+
+  .routing-hop {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+.email-examples-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Email Color Legend */
+.email-color-legend {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Fix header value wrapping */
+.parsed-fields-table td.field-value {
+  max-width: 400px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+@media (max-width: 768px) {
+  .parsed-fields-table td.field-value {
+    max-width: 200px;
+  }
+}
+
+/* Total Delivery Time Banner */
+.total-delivery-time {
+  background: linear-gradient(135deg, rgba(0, 92, 197, 0.1), rgba(16, 185, 129, 0.1));
+  border: 2px solid var(--color-operator);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.total-delivery-time strong {
+  color: var(--color-operator);
+  font-size: 1.2rem;
+}
+
+.delivery-time-detail {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.clock-skew-warning {
+  margin-top: 0.75rem;
+  color: var(--color-error);
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .total-delivery-time {
+    font-size: 1rem;
+  }
+
+  .total-delivery-time strong {
+    font-size: 1.1rem;
+  }
+
+  .delivery-time-detail {
+    font-size: 0.85rem;
+  }
+}
+
+/* VirusTotal Links in Routing Hops */
+.vt-link {
+  margin-left: 0.5rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.vt-link:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.vt-link:focus {
+  outline: 2px solid var(--color-operator);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* VirusTotal Link at bottom of hop */
+.vt-link-hop {
+  display: block;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(0, 92, 197, 0.1);
+  border: 1px solid var(--color-operator);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--color-operator);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.vt-link-hop:hover {
+  background: rgba(0, 92, 197, 0.2);
+  transform: translateY(-1px);
+}
+
+.vt-link-hop:active {
+  transform: translateY(0);
+}

@@ -222,6 +222,11 @@ function createFieldTable(parsedLog) {
     const tbody = document.createElement('tbody');
 
     Object.entries(parsedLog).forEach(([field, value]) => {
+        // Skip internal metadata fields (those starting with underscore)
+        if (field.startsWith('_')) {
+            return;
+        }
+
         const fieldInfo = logKnowledge[field] || { description: 'Unknown field', category: 'default' };
 
         const row = document.createElement('tr');

@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-01-31
+
+### Added
+- **Email Mode for SMTP Headers** - New dedicated mode for parsing and analyzing email headers
+  - **RFC 5322/5321 Compliance** - Full compliance with SMTP email header standards
+  - **50+ Header Field Definitions** - Comprehensive coverage of email headers including source, destination, routing, content, and security headers
+  - **Interactive Routing Visualization** - Visual flow diagram showing mail server path:
+    - **Hop-by-Hop Analysis** - Captures all intermediate servers by parsing both "from" and "by" clauses
+    - **Organization Detection** - Visually distinguishes internal hops from external organization boundaries (Microsoft, Google, etc.)
+    - **Encryption Insights** - Displays TLS version (1.2, 1.3) and cipher suites on connection arrows with color-coded security badges
+    - **Timing Analysis** - Calculates transit times between hops and detects clock skew issues with warnings
+    - **Local Delivery** - Identifies and labels internal datacenter handoffs
+  - **Security Header Analysis** - Detailed breakdown of DKIM, SPF, DMARC, and ARC authentication results
+  - **Multi-line Parsing** - Proper handling of folded headers and non-standard timestamp formats (e.g., SendGrid)
+  - **6 Example Email Headers** - Diverse examples covering marketing, security, threading, and forwarding scenarios
+- **Check Point Firewall Log Parser (R81.x)** - Comprehensive firewall log parsing support
+  - **80+ Field Definitions** - Extensive coverage of Traffic, Threat, VPN, and Authentication log fields
+  - **LEA Format Support** - Robust parsing of Log Export API (LEA) key-value pair format
+  - **Traffic Logs** - Support for network flow, NAT, policy decisions, and identity awareness
+  - **Threat Prevention** - Support for IPS, Anti-Virus, Anti-Bot, and URL Filtering
+  - **Auto-Detection** - Automatically identifies Check Point LEA log format
+  - **6 Example Logs** - Traffic (accept/drop), IPS prevention, URL filtering, VPN connection, Anti-Virus detection
+- **Version Designation** - Check Point parser clearly shows "Check Point (R81.x)" for OS version clarity
+
+### Changed
+- Updated README to reflect new Email Mode, Check Point support, and version 2.3.0
+- Updated architecture documentation to show 3 log parsers and 3 knowledge bases
+- Enhanced auto-detection logic to distinguish between FortiGate, Palo Alto, and Check Point log formats
+
 ## [2.2.0] - 2026-01-29
 
 ### Added

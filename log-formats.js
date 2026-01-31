@@ -64,6 +64,38 @@ export const logFormats = {
                 log: ',2024/01/29 14:55:15,007951000012345,THREAT,vulnerability,,2024/01/29 14:55:14,203.0.113.200,192.168.1.50,0.0.0.0,0.0.0.0,Security-Policy,,,web-browsing,vsys1,untrust,dmz,ethernet1/2,ethernet1/3,Log-Forwarding,,12353,1,12345,8080,0,0,0x0,tcp,alert,http://webapp.example.com/admin,SQL Injection Attempt,vulnerability,critical,client-to-server,12354,0x8000000000000000,Reserved,United States,,text/html,0,,,0,sqlmap/1.5,HTML,203.0.113.200,,,,,,,0,0,0,0,,PA-5220,,,,POST,0,,0,0,,40000,code-execution,8675-7890,,0,0,,sql-injection,0,0x0,,,,,,,,,,,Server,Linux-Server,Nginx Web Server,Nginx,Linux,Ubuntu 22.04,webapp01,77:88:99:aa:bb:cc,,,,,,,,,0,2024/01/29 14:55:15.890123,,'
             }
         ]
+    },
+    checkpoint: {
+        id: 'checkpoint',
+        name: 'Check Point (R81.x)',
+        emoji: '🔷',
+        description: 'Check Point firewall logs (R81.x)',
+        examples: [
+            {
+                title: 'Traffic Accept',
+                log: 'time=1706544615; action=Accept; origin=CP-GW-01; src=192.168.1.100; s_port=54321; dst=8.8.8.8; service=53; proto=17; rule_name="Allow DNS"; rule=5; layer_name=Network; product="VPN-1 & FireWall-1"; service_id=domain-udp; src_user_name=john.doe; src_machine_name=DESKTOP-ABC123; dst_machine_name=dns.google; xlatesrc=203.0.113.10; xlatesport=54321; sent_bytes=256; received_bytes=512; sent_packets=4; received_packets=4; duration=2; conn_direction=Outgoing; version=R81.10'
+            },
+            {
+                title: 'Traffic Drop',
+                log: 'time=1706544722; action=Drop; origin=CP-GW-01; src=10.0.0.50; s_port=12345; dst=192.168.100.1; service=445; proto=6; rule_name="Block SMB"; rule=12; layer_name=Network; product="VPN-1 & FireWall-1"; service_id=microsoft-ds; src_location=Internal; dst_location=Internal; conn_direction=Internal; version=R81.10; tcp_flags=SYN'
+            },
+            {
+                title: 'IPS Prevention',
+                log: 'time=1706545010; action=Prevent; origin=CP-GW-01; src=203.0.113.100; s_port=54321; dst=192.168.1.10; service=80; proto=6; product=SmartDefense; threat_prevention_type=IPS; protection_name="SQL Injection"; protection_id=12345; severity=Critical; confidence_level=High; attack_info="SQL injection attempt detected in HTTP request"; rule_name="Strict IPS"; layer_name="Threat Prevention"; src_country=CN; dst_country=US; resource="http://webapp.example.com/login.php?id=1\' OR \'1\'=\'1"; methods=GET; user_agent="sqlmap/1.5"; cveid=CVE-2023-12345; version=R81.20'
+            },
+            {
+                title: 'URL Filtering',
+                log: 'time=1706545200; action=Drop; origin=CP-GW-01; src=192.168.1.105; s_port=49152; dst=203.0.113.50; service=80; proto=6; product=SmartDefense; threat_prevention_type="URL Filtering"; resource="http://malicious.example.com/payload.exe"; categories="Malware;Command and Control"; severity=High; rule_name="Block Malicious URLs"; layer_name="Threat Prevention"; src_user_name=jane.smith; src_machine_name=LAPTOP-XYZ789; methods=GET; user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)"; version=R81.10'
+            },
+            {
+                title: 'VPN Connection',
+                log: 'time=1706545400; action=Accept; origin=CP-GW-01; src=203.0.113.200; dst=192.168.1.1; product="VPN-1 & FireWall-1"; vpn_feature_name="Remote Access"; peer_gateway=203.0.113.200; community=RemoteAccess; encryption_method=AES-256; ike_version=IKEv2; src_user_name=remote.user; message_info="VPN tunnel established successfully"; rule_name="VPN Access"; layer_name=Network; version=R81.10'
+            },
+            {
+                title: 'Anti-Virus Detection',
+                log: 'time=1706545600; action=Prevent; origin=CP-GW-01; src=192.168.1.110; s_port=54321; dst=203.0.113.75; service=443; proto=6; product=SmartDefense; threat_prevention_type="Anti-Virus"; malware_action=Prevent; malware_family=Ransomware; file_name=malware.exe; file_hash=d41d8cd98f00b204e9800998ecf8427e; severity=Critical; confidence_level=High; rule_name="Strict AV Protection"; layer_name="Threat Prevention"; src_user_name=victim.user; src_machine_name=WORKSTATION-001; resource="https://download.example.com/malware.exe"; methods=GET; version=R81.20'
+            }
+        ]
     }
 };
 
@@ -113,8 +145,24 @@ export function autoDetectLogFormat(logText) {
         return 'fortinet';
     }
 
+    // Check Point detection - looks for LEA format with Check Point-specific fields
+    if ((text.includes('product=') || text.includes('origin=')) &&
+        (text.includes('rule_name=') || text.includes('rule_uid=') || text.includes('action='))) {
+        // Additional validation - Check Point logs typically have semicolon separators
+        if (text.includes(';') && /\w+=/.test(text)) {
+            return 'checkpoint';
+        }
+    }
+
+    // Palo Alto detection - CSV format with specific field patterns
+    if (text.startsWith(',') && text.includes('TRAFFIC') || text.includes('THREAT')) {
+        const fields = text.split(',');
+        if (fields.length > 20 && fields[3] && (fields[3] === 'TRAFFIC' || fields[3] === 'THREAT')) {
+            return 'paloalto';
+        }
+    }
+
     // Future: Add detection for other log formats
-    // Palo Alto: <timestamp> <serial> <log-type>,<subtype>,...
     // Cisco ASA: %ASA-<severity>-<message-id>: <message>
     // pfSense: <timestamp> <hostname> filterlog: <csv-fields>
     // Apache: <ip> - - [<timestamp>] "<method> <uri> <protocol>" <status> <size>
