@@ -38,14 +38,6 @@ Analyze and understand query language statements with interactive parsing and de
 ### 📋 Log Mode
 Parse and explain firewall and server log entries with field-by-field breakdowns.
 
-### 📧 Email Mode
-Parse and analyze SMTP email headers with RFC 5322/5321 compliance. Features include:
-- 50+ email header field definitions
-- Email routing visualization showing mail server path
-- Support for security headers (DKIM, SPF, DMARC)
-- Multi-line folded header parsing
-- Transit time calculation between hops
-
 #### Supported Log Formats
 - 🔥 **FortiGate (FortiOS 7.x)** - Fortinet FortiGate firewall logs (80+ field definitions)
   - Traffic logs (allow/deny)
@@ -61,6 +53,14 @@ Parse and analyze SMTP email headers with RFC 5322/5321 compliance. Features inc
   - Threat Prevention (IPS, Anti-Virus, Anti-Bot, URL Filtering)
   - VPN connection logs
   - Application Control and Identity Awareness
+
+### 📧 Email Mode
+Parse and analyze SMTP email headers with RFC 5322/5321 compliance. Features include:
+- 50+ email header field definitions
+- Email routing visualization showing mail server path
+- Support for security headers (DKIM, SPF, DMARC)
+- Multi-line folded header parsing
+- Transit time calculation between hops
 
 ### 🔤 Regex Mode
 Understand regular expressions with visual syntax highlighting, pattern explanations, and interactive testing.
