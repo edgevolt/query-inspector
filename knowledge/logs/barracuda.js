@@ -12,6 +12,16 @@ export default {
         category: 'device',
         examples: ['14', '134']
     },
+    SyslogFacility: {
+        description: 'Syslog facility code (0-23)',
+        category: 'device',
+        examples: ['1', '16']
+    },
+    SyslogSeverityCode: {
+        description: 'Syslog severity value (0-7)',
+        category: 'device',
+        examples: ['6', '5']
+    },
     SyslogTimestamp: {
         description: 'Timestamp from the syslog header',
         category: 'timestamp',

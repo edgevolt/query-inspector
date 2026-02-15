@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.1] - 2026-02-14
 
 ### Added
-- **Expanded Firewall Support** - Added 4 new major firewall log parsers:
+- **Expanded Firewall Support** - Added **6 new major firewall log parsers**:
+  - **Cisco Firepower (FTD 6.x/7.x)** - Support for standard syslog format with 120+ fields
+  - **Juniper SRX (Junos OS)** - Support for standard and structured-data (SD-ID) formats (100+ fields)
   - **SonicWall (SonicOS)** - Support for standard and legacy syslog formats (90+ fields)
   - **Barracuda CloudGen Firewall** - Support for pipe-separated and key-value formats (110+ fields)
   - **WatchGuard Firebox** - Support for Fireware OS 12.x traffic and event logs (95+ fields)
-  - **Ubiquiti UniFi/EdgeRouter** - Support for kernel-based firewall logs and rule prefixes (90+ fields)
+  - **Ubiquiti UniFi/EdgeRouter** - Support for kernel-based firewall logs and rule prefixes (80+ fields)
 - **URL Shortcuts** - Direct access to specific modes via URL parameters:
   - `?mode=log` - Open directly in Log Parser mode
   - `?mode=regex` - Open directly in Regex Mode

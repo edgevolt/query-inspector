@@ -64,8 +64,12 @@ export function parseLog(logLine) {
 
     // 3. Field Normalization & Type Conversion
     if (fields.src) fields.srcIp = fields.src;
+    if (fields.srcIP) fields.srcIp = fields.srcIP;
     if (fields.dst) fields.dstIp = fields.dst;
+    if (fields.dstIP) fields.dstIp = fields.dstIP;
     if (fields.proto) fields.protocol = fields.proto;
+    if (fields.srcMAC) fields.srcMac = fields.srcMAC;
+    if (fields.dstMAC) fields.dstMac = fields.dstMAC;
 
     // Convert numeric fields
     ['srcPort', 'dstPort', 'count', 'receivedBytes', 'sentBytes', 'receivedPackets', 'sentPackets', 'duration'].forEach(field => {
