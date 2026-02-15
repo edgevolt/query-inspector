@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.1] - 2026-02-14
+
+### Added
+- **Expanded Firewall Support** - Added 4 new major firewall log parsers:
+  - **SonicWall (SonicOS)** - Support for standard and legacy syslog formats (90+ fields)
+  - **Barracuda CloudGen Firewall** - Support for pipe-separated and key-value formats (110+ fields)
+  - **WatchGuard Firebox** - Support for Fireware OS 12.x traffic and event logs (95+ fields)
+  - **Ubiquiti UniFi/EdgeRouter** - Support for kernel-based firewall logs and rule prefixes (90+ fields)
+- **URL Shortcuts** - Direct access to specific modes via URL parameters:
+  - `?mode=log` - Open directly in Log Parser mode
+  - `?mode=regex` - Open directly in Regex Mode
+  - `?mode=email` - Open directly in Email Mode
+  - `?mode=query` - Open directly in Statement Mode
+- **State Persistence** - Application now remembers your last active mode across page reloads
+
+### Changed
+- **Log Registry** - Alphabetized vendor list in UI for better discoverability
+- **Log Detection** - Enhanced auto-detection logic for all new vendors
+
 ## [2.3.0] - 2026-01-31
 
 ### Added

@@ -40,6 +40,9 @@ async function init() {
     queryInput.addEventListener('input', handleQueryInput);
     languageSelector.addEventListener('change', handleLanguageChange);
 
+    // Setup mode switching
+    setupModeSwitching();
+
     // Determine initial language
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
@@ -49,13 +52,9 @@ async function init() {
     // Load initial language
     await loadLanguage(initialLangId);
 
-    // Initialize log mode
+    // Initialize modes (without their internal listeners)
     initLogMode();
-
-    // Initialize regex mode
     initRegexMode();
-
-    // Initialize email mode
     initEmailMode();
 
     // Check for initial query
@@ -503,3 +502,71 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
+
+/**
+ * Setup centralized mode switching
+ */
+function setupModeSwitching() {
+    const modes = ['query', 'log', 'regex', 'email'];
+    const buttons = {};
+    const containers = {};
+
+    // Get elements
+    modes.forEach(mode => {
+        buttons[mode] = document.getElementById(`${mode}-mode-btn`);
+        containers[mode] = document.getElementById(`${mode}-mode-container`);
+
+        // Attach listener
+        if (buttons[mode]) {
+            buttons[mode].addEventListener('click', () => switchMode(mode));
+        }
+    });
+
+    // Check URL or localStorage for initial mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlMode = urlParams.get('mode');
+    const savedMode = localStorage.getItem('selectedMode');
+
+    // Default to 'query' only if no URL mode and no saved mode, or if they are invalid
+    let initialMode = 'query';
+    if (urlMode && modes.includes(urlMode)) {
+        initialMode = urlMode;
+    } else if (savedMode && modes.includes(savedMode)) {
+        initialMode = savedMode;
+    }
+
+    switchMode(initialMode, false); // Don't push state on initial load
+}
+
+/**
+ * Switch application mode
+ * @param {string} modeId - The mode to switch to ('query', 'log', 'regex', 'email')
+ * @param {boolean} updateHistory - Whether to push a new history state
+ */
+export function switchMode(modeId, updateHistory = true) {
+    const modes = ['query', 'log', 'regex', 'email'];
+
+    modes.forEach(mode => {
+        const btn = document.getElementById(`${mode}-mode-btn`);
+        const container = document.getElementById(`${mode}-mode-container`);
+
+        if (mode === modeId) {
+            if (btn) btn.classList.add('active');
+            if (container) container.classList.add('active');
+        } else {
+            if (btn) btn.classList.remove('active');
+            if (container) container.classList.remove('active');
+        }
+    });
+
+    // Save to localStorage
+    localStorage.setItem('selectedMode', modeId);
+
+    // Update URL if requested
+    if (updateHistory) {
+        const url = new URL(window.location);
+        url.searchParams.set('mode', modeId);
+        window.history.pushState({}, '', url);
+    }
+}
+

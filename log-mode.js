@@ -27,9 +27,7 @@ export function initLogMode() {
     // Populate log format selector
     populateLogFormatSelector();
 
-    // Mode toggle event listeners
-    queryModeBtn.addEventListener('click', () => switchMode('query'));
-    logModeBtn.addEventListener('click', () => switchMode('log'));
+    // Mode toggle event listeners are now handled in main.js
 
     // Log format selector change
     logFormatSelector.addEventListener('change', async (e) => {
@@ -76,30 +74,7 @@ export function initLogMode() {
     loadLogExamples();
 }
 
-/**
- * Switch between query and log modes
- * @param {string} mode - 'query' or 'log'
- */
-function switchMode(mode) {
-    const queryModeBtn = document.getElementById('query-mode-btn');
-    const logModeBtn = document.getElementById('log-mode-btn');
-    const queryModeContainer = document.getElementById('query-mode-container');
-    const logModeContainer = document.getElementById('log-mode-container');
 
-    if (mode === 'query') {
-        queryModeBtn.classList.add('active');
-        logModeBtn.classList.remove('active');
-        queryModeContainer.classList.add('active');
-        logModeContainer.classList.remove('active');
-        currentMode = 'query';
-    } else if (mode === 'log') {
-        logModeBtn.classList.add('active');
-        queryModeBtn.classList.remove('active');
-        logModeContainer.classList.add('active');
-        queryModeContainer.classList.remove('active');
-        currentMode = 'log';
-    }
-}
 
 /**
  * Populate log format selector dropdown
@@ -380,9 +355,10 @@ function loadLogExamples() {
         `;
 
                 card.addEventListener('click', () => {
-                    // Switch to log mode if not already
-                    if (currentMode !== 'log') {
-                        switchMode('log');
+                    // Switch to log mode if not already (using DOM event to be safe)
+                    const logModeBtn = document.getElementById('log-mode-btn');
+                    if (logModeBtn && !logModeBtn.classList.contains('active')) {
+                        logModeBtn.click();
                     }
 
                     // Set format

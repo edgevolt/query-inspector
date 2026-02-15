@@ -15,8 +15,7 @@ export function initEmailMode() {
     const emailModeBtn = document.getElementById('email-mode-btn');
     const emailInput = document.getElementById('email-input');
 
-    // Setup mode toggle for email mode button only
-    setupModeToggle();
+    // Mode toggle handled in main.js
 
     // Email input change - parse in real-time
     emailInput.addEventListener('input', debounce(() => {
@@ -32,43 +31,7 @@ export function initEmailMode() {
     loadEmailExamples();
 }
 
-/**
- * Setup mode toggle functionality for email mode
- */
-function setupModeToggle() {
-    const queryModeBtn = document.getElementById('query-mode-btn');
-    const logModeBtn = document.getElementById('log-mode-btn');
-    const regexModeBtn = document.getElementById('regex-mode-btn');
-    const emailModeBtn = document.getElementById('email-mode-btn');
 
-    const queryContainer = document.getElementById('query-mode-container');
-    const logContainer = document.getElementById('log-mode-container');
-    const regexContainer = document.getElementById('regex-mode-container');
-    const emailContainer = document.getElementById('email-mode-container');
-
-    // Email mode button click
-    emailModeBtn.addEventListener('click', () => {
-        // Update buttons
-        queryModeBtn.classList.remove('active');
-        logModeBtn.classList.remove('active');
-        regexModeBtn.classList.remove('active');
-        emailModeBtn.classList.add('active');
-
-        // Update containers
-        queryContainer.classList.remove('active');
-        logContainer.classList.remove('active');
-        regexContainer.classList.remove('active');
-        emailContainer.classList.add('active');
-    });
-
-    // Other mode buttons - remove email mode active state
-    [queryModeBtn, logModeBtn, regexModeBtn].forEach(btn => {
-        btn.addEventListener('click', () => {
-            emailModeBtn.classList.remove('active');
-            emailContainer.classList.remove('active');
-        });
-    });
-}
 
 /**
  * Parse email headers and display results

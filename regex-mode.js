@@ -69,58 +69,14 @@ export function initRegexMode() {
         });
     }
 
-    // Mode toggle
-    setupModeToggle();
+    // Mode toggle handled in main.js
 
     // Render examples and cheat sheet
     renderExamples();
     renderCheatSheet();
 }
 
-/**
- * Setup mode toggle functionality
- */
-function setupModeToggle() {
-    const queryModeBtn = document.getElementById('query-mode-btn');
-    const logModeBtn = document.getElementById('log-mode-btn');
-    const regexModeBtn = document.getElementById('regex-mode-btn');
 
-    const queryContainer = document.getElementById('query-mode-container');
-    const logContainer = document.getElementById('log-mode-container');
-    const regexContainer = document.getElementById('regex-mode-container');
-
-    regexModeBtn.addEventListener('click', () => {
-        // Update buttons
-        queryModeBtn.classList.remove('active');
-        logModeBtn.classList.remove('active');
-        regexModeBtn.classList.add('active');
-
-        // Update containers
-        queryContainer.classList.remove('active');
-        logContainer.classList.remove('active');
-        regexContainer.classList.add('active');
-    });
-
-    queryModeBtn.addEventListener('click', () => {
-        queryModeBtn.classList.add('active');
-        logModeBtn.classList.remove('active');
-        regexModeBtn.classList.remove('active');
-
-        queryContainer.classList.add('active');
-        logContainer.classList.remove('active');
-        regexContainer.classList.remove('active');
-    });
-
-    logModeBtn.addEventListener('click', () => {
-        queryModeBtn.classList.remove('active');
-        logModeBtn.classList.add('active');
-        regexModeBtn.classList.remove('active');
-
-        queryContainer.classList.remove('active');
-        logContainer.classList.add('active');
-        regexContainer.classList.remove('active');
-    });
-}
 
 /**
  * Handle pattern input with debouncing
