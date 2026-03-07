@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.3] - 2026-03-07
+
+### Added
+- **Microsoft Entra ID Log Parser** - First identity/IAM log format — comprehensive JSON-based parsing for Microsoft Entra ID (formerly Azure AD) logs
+  - **Sign-In Logs** - Interactive and non-interactive authentication events with Conditional Access policy evaluation, MFA details, device compliance state, and geolocation
+  - **Audit Logs** - Directory change operations (UserManagement, GroupManagement, ApplicationManagement, RoleManagement) with initiator and target resource details
+  - **Provisioning Logs** - Identity sync operations between Entra ID and external systems (Salesforce, ServiceNow, etc.) with step-by-step provisioning status
+  - **Identity Protection / Risk Detection Logs** - Risk events such as impossible travel, anonymous IP, leaked credentials, and password spray with severity and detection timing
+  - **120+ Field Definitions** - Comprehensive knowledge base covering all four log sub-types
+  - **JSON Parsing Engine** - Robust parser with automatic nested object flattening (dot-notation keys), context-aware array summarization, sub-type auto-detection, and malformed JSON recovery
+  - **Auto-Detection** - Automatically identifies Entra ID JSON logs based on signature fields
+  - **6 Example Logs** - Sign-In Success, Sign-In Failure (MFA Block), Audit Create User, Audit Add Member to Group, Provisioning Event, Risk Detection (Impossible Travel)
+- **Okta System Log Parser** - Comprehensive JSON-based parsing for Okta System Log events
+  - **Authentication & SSO** - User sign-in, MFA challenge, application SSO, federation, and RADIUS events
+  - **User Lifecycle** - Create, activate, deactivate, suspend, unsuspend, delete, password change, and account lockout
+  - **Application & Group Management** - App creation/assignment, group membership add/remove
+  - **Security Events** - Threat detection, suspicious activity, risk signals from Okta ThreatInsight
+  - **System & Policy** - API token management, sign-on policy evaluation, rate limit events
+  - **100+ Field Definitions** - Covering actor, target, outcome, client, authentication/security/geographic context, transaction, and debug data
+  - **Auto-Detection** - Identifies Okta JSON logs based on `eventType` + `actor` + `outcome` fields
+  - **6 Example Logs** - Sign-In Success, MFA Challenge, User Create, Application SSO, Group Membership Add, Suspicious Activity
+- **Ping Identity (PingOne) Log Parser** - Comprehensive JSON-based parsing for PingOne Platform audit activity logs
+  - **Authentication Events** - User sign-in, SSO, password checks, and session management
+  - **User Lifecycle** - Create, update, delete, enable, disable, lock, and unlock
+  - **MFA Events** - Factor enrollment, challenge, and deletion
+  - **Application & Group Management** - App CRUD, group membership, role assignments
+  - **Risk Evaluation** - PingOne risk engine assessments with predictors and scores
+  - **100+ Field Definitions** - Covering actors, resources, result, authentication/MFA/risk context, and 30+ event types
+  - **Auto-Detection** - Identifies PingOne JSON logs based on `action` + `actors` + `resources` fields
+  - **6 Example Logs** - Authentication Success, MFA Challenge, User Created, App SSO, Group Membership Add, Risk Evaluation
+
+### Changed
+- **Grouped Log Format Selector** - Dropdown now groups formats into "🔐 Identity & Access" and "🧱 Firewall & Network" categories using `<optgroup>` elements, with alphabetical sorting within each group
+- Updated README to reflect 13 supported log formats and version 2.3.3
+- Updated architecture documentation to show 13 log parsers and 13 knowledge bases
+
 ## [2.3.1] - 2026-02-14
 
 ### Added

@@ -77,18 +77,51 @@ export function initLogMode() {
 
 
 /**
- * Populate log format selector dropdown
+ * Populate log format selector dropdown with grouped categories
  */
 function populateLogFormatSelector() {
     const selector = document.getElementById('log-format-selector');
     const formats = getAllLogFormats();
 
+    // Define category groups with display labels
+    const categoryGroups = {
+        identity: { label: '🔐 Identity & Access', formats: [] },
+        firewall: { label: '🧱 Firewall & Network', formats: [] }
+    };
+
+    // Sort formats into category groups
     formats.forEach(format => {
-        const option = document.createElement('option');
-        option.value = format.id;
-        option.textContent = `${format.emoji} ${format.name}`;
-        selector.appendChild(option);
+        const cat = format.category || 'firewall';
+        if (categoryGroups[cat]) {
+            categoryGroups[cat].formats.push(format);
+        } else {
+            categoryGroups.firewall.formats.push(format);
+        }
     });
+
+    // Sort formats alphabetically within each group
+    Object.values(categoryGroups).forEach(group => {
+        group.formats.sort((a, b) => a.name.localeCompare(b.name));
+    });
+
+    // Render optgroup elements (identity first, then firewall)
+    const groupOrder = ['identity', 'firewall'];
+    for (const catKey of groupOrder) {
+        const group = categoryGroups[catKey];
+        if (group.formats.length === 0) continue;
+
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group.label;
+
+        group.formats.forEach(format => {
+            const option = document.createElement('option');
+            option.value = format.id;
+            option.textContent = `${format.emoji} ${format.name}`;
+            optgroup.appendChild(option);
+        });
+
+        selector.appendChild(optgroup);
+    }
 }
 
 /**

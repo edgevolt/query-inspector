@@ -1,8 +1,8 @@
 # Inspector
 
-**Version 2.3.0**
+**Version 2.3.3**
 
-A minimalistic web application that explains query language statements, parses log entries, analyzes email headers, and helps you understand regular expressions with visual indicators and interactive info panels. Supports 20 query languages, 3 firewall/server log formats, SMTP email headers with routing visualization, and comprehensive regex pattern analysis with an extensible architecture.
+A minimalistic web application that explains query language statements, parses log entries, analyzes email headers, and helps you understand regular expressions with visual indicators and interactive info panels. Supports 20 query languages, 13 log formats (9 firewall + 4 identity/IAM), SMTP email headers with routing visualization, and comprehensive regex pattern analysis with an extensible architecture.
 
 **Live at**: [explain.getstat.dev](https://explain.getstat.dev)
 
@@ -39,20 +39,30 @@ Analyze and understand query language statements with interactive parsing and de
 Parse and explain firewall and server log entries with field-by-field breakdowns.
 
 #### Supported Log Formats
-- 🔥 **FortiGate (FortiOS 7.x)** - Fortinet FortiGate firewall logs (80+ field definitions)
-  - Traffic logs (allow/deny)
-  - UTM logs (virus, IPS, application control)
-  - VPN connection logs
-  - Security event logs
-- 🔶 **Palo Alto (PAN-OS 11.x)** - Palo Alto Networks firewall logs (100+ field definitions)
-  - Traffic logs (allow/deny/drop)
-  - Threat logs (spyware, virus, vulnerability, URL filtering)
-  - Advanced features (SD-WAN, containers, IoT device context)
+- 🐟 **Barracuda CloudGen Firewall (8.x/9.x)** - Barracuda Networks CloudGen/NG firewall logs (110+ field definitions)
 - 🔷 **Check Point (R81.x)** - Check Point firewall logs (80+ field definitions)
-  - Traffic logs (accept/drop)
-  - Threat Prevention (IPS, Anti-Virus, Anti-Bot, URL Filtering)
-  - VPN connection logs
-  - Application Control and Identity Awareness
+- 🛡️ **Cisco Firepower (FTD 6.x/7.x)** - Cisco Firepower Threat Defense syslog logs (120+ field definitions)
+- 🔥 **FortiGate (FortiOS 7.x)** - Fortinet FortiGate firewall logs (80+ field definitions)
+- 🌲 **Juniper SRX (Junos OS 12.x/15.x+)** - Juniper Networks SRX firewall logs (100+ field definitions)
+- 🔑 **Microsoft Entra ID** - Sign-in, audit, provisioning, and risk detection logs (120+ field definitions)
+  - Sign-in logs (success/failure, MFA, Conditional Access)
+  - Audit logs (user/group/app management)
+  - Provisioning logs (identity sync operations)
+  - Identity Protection risk detections
+- 🔐 **Okta** - System Log events — authentication, lifecycle, security, and admin operations (100+ field definitions)
+  - Authentication & SSO (sign-in, MFA challenge, federation)
+  - User lifecycle (create, activate, deactivate, suspend)
+  - Application & group management
+  - Security events (threat detection, lockouts, risk signals)
+- 🏓 **Ping Identity (PingOne)** - Audit activity logs — authentication, lifecycle, MFA, and admin events (100+ field definitions)
+  - Authentication & SSO (sign-in, password checks, federation)
+  - User lifecycle (create, update, delete, enable/disable)
+  - MFA events (enrollment, challenge, factor management)
+  - Risk evaluation (predictors, scores, policy decisions)
+- 🔶 **Palo Alto (PAN-OS 11.x)** - Palo Alto Networks firewall logs (100+ field definitions)
+- 🔶 **SonicWall (SonicOS 6.5/7.x)** - SonicWall firewall Enhanced Syslog format (90+ field definitions)
+- 🔷 **Ubiquiti UniFi/EdgeRouter (UniFi OS)** - Ubiquiti UniFi and EdgeRouter logs (80+ field definitions)
+- 🔥 **WatchGuard Firebox (Fireware OS 12.x)** - WatchGuard Firebox syslog format (95+ field definitions)
 
 ### 📧 Email Mode
 Parse and analyze SMTP email headers with RFC 5322/5321 compliance. Features include:
@@ -172,19 +182,37 @@ query-inspector/
 │   │   ├── sql-parser.js
 │   │   ├── yaral-parser.js
 │   │   └── ...
-│   └── logs/              # Log parsers (3 files)
+│   └── logs/              # Log parsers (13 files)
+│       ├── barracuda.js   # Barracuda CloudGen parser
+│       ├── checkpoint.js  # Check Point parser
+│       ├── entra-id.js    # Microsoft Entra ID parser (JSON)
+│       ├── firepower.js   # Cisco Firepower parser
 │       ├── fortinet.js    # FortiGate parser
+│       ├── juniper.js     # Juniper SRX parser
+│       ├── okta.js        # Okta System Log parser (JSON)
 │       ├── paloalto.js    # Palo Alto parser
-│       └── checkpoint.js  # Check Point parser
+│       ├── ping-identity.js # Ping Identity parser (JSON)
+│       ├── sonicwall.js   # SonicWall parser
+│       ├── ubiquiti.js    # Ubiquiti UniFi parser
+│       └── watchguard.js  # WatchGuard Firebox parser
 └── knowledge/
     ├── statements/        # Query/shell knowledge bases (20 files)
     │   ├── kql.js
     │   ├── sql.js
     │   └── ...
-    └── logs/             # Log knowledge bases (3 files)
-        ├── fortinet.js   # FortiGate field definitions
-        ├── paloalto.js   # Palo Alto field definitions
-        └── checkpoint.js # Check Point field definitions
+    └── logs/             # Log knowledge bases (13 files)
+        ├── barracuda.js   # Barracuda field definitions
+        ├── checkpoint.js  # Check Point field definitions
+        ├── entra-id.js    # Microsoft Entra ID field definitions
+        ├── firepower.js   # Cisco Firepower field definitions
+        ├── fortinet.js    # FortiGate field definitions
+        ├── juniper.js     # Juniper SRX field definitions
+        ├── okta.js        # Okta field definitions
+        ├── paloalto.js    # Palo Alto field definitions
+        ├── ping-identity.js # Ping Identity field definitions
+        ├── sonicwall.js   # SonicWall field definitions
+        ├── ubiquiti.js    # Ubiquiti UniFi field definitions
+        └── watchguard.js  # WatchGuard Firebox field definitions
 ```
 
 ### How It Works

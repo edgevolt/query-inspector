@@ -3,13 +3,46 @@
  * Central registry for all supported log formats
  * Similar to languages.js but for log parsers
  */
-
 export const logFormats = {
+    'entra-id': {
+        id: 'entra-id',
+        name: 'Microsoft Entra ID',
+        emoji: '🔑',
+        description: 'Microsoft Entra ID (Azure AD) sign-in, audit, provisioning, and risk detection logs (JSON)',
+        category: 'identity',
+        examples: [
+            {
+                title: 'Sign-In Success',
+                log: '{"id":"66ea54eb-6301-4ee5-be62-ff5a759b0100","createdDateTime":"2026-03-07T14:30:00Z","userDisplayName":"Jane Smith","userPrincipalName":"jsmith@contoso.com","userId":"a1b2c3d4-e5f6-7890-abcd-ef1234567890","appDisplayName":"Microsoft Teams","appId":"1fec8e78-bce4-4aaf-ab1b-5451cc387264","ipAddress":"203.0.113.42","clientAppUsed":"Browser","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/122.0","resourceDisplayName":"Microsoft Graph","resourceId":"00000003-0000-0000-c000-000000000000","status":{"errorCode":0,"failureReason":null,"additionalDetails":"MFA completed in Azure AD"},"conditionalAccessStatus":"success","isInteractive":true,"authenticationRequirement":"multiFactorAuthentication","authenticationProtocol":"oAuth2","tokenIssuerType":"AzureAD","riskLevelDuringSignIn":"none","riskState":"none","deviceDetail":{"deviceId":"b3c5a820-1234-abcd-ef56-7890abcdef01","displayName":"DESKTOP-ABC123","operatingSystem":"Windows 10","browser":"Edge 122.0","isCompliant":true,"isManaged":true,"trustType":"Hybrid Azure AD joined"},"location":{"city":"Seattle","state":"Washington","countryOrRegion":"US","geoCoordinates":{"latitude":47.6062,"longitude":-122.3321}},"appliedConditionalAccessPolicies":[{"displayName":"Require MFA for All Users","result":"success","enforcedGrantControls":["mfa"]},{"displayName":"Block Legacy Auth","result":"notApplied"}],"authenticationDetails":[{"authenticationMethod":"Password","succeeded":true,"authenticationStepResultDetail":"MFA completed in Azure AD"},{"authenticationMethod":"Microsoft Authenticator","succeeded":true,"authenticationStepResultDetail":"MFA completed"}],"correlationId":"d3087bfa-3456-7890-abcd-ef1234567890","userType":"Member"}'
+            },
+            {
+                title: 'Sign-In Failure (MFA Block)',
+                log: '{"id":"77fb65fc-7412-5ff6-cf73-006b860c1211","createdDateTime":"2026-03-07T15:10:33Z","userDisplayName":"Bob Johnson","userPrincipalName":"bjohnson@contoso.com","userId":"c2d3e4f5-a6b7-8901-cdef-234567890abc","appDisplayName":"Azure Portal","appId":"c44b4083-3bb0-49c1-b47d-974e53cbdf3c","ipAddress":"198.51.100.77","clientAppUsed":"Browser","resourceDisplayName":"Windows Azure Service Management API","status":{"errorCode":500121,"failureReason":"Authentication failed during strong authentication request.","additionalDetails":"MFA denied; user did not respond to push notification."},"conditionalAccessStatus":"failure","isInteractive":true,"authenticationRequirement":"multiFactorAuthentication","authenticationProtocol":"oAuth2","tokenIssuerType":"AzureAD","riskLevelDuringSignIn":"low","riskState":"atRisk","riskDetail":"none","riskEventTypes_v2":["unfamiliarFeatures"],"deviceDetail":{"operatingSystem":"MacOs","browser":"Chrome 122.0","isCompliant":false,"isManaged":false},"location":{"city":"London","state":"London","countryOrRegion":"GB","geoCoordinates":{"latitude":51.5074,"longitude":-0.1278}},"appliedConditionalAccessPolicies":[{"displayName":"Require MFA for All Users","result":"failure","enforcedGrantControls":["mfa"]}],"authenticationDetails":[{"authenticationMethod":"Password","succeeded":true},{"authenticationMethod":"PhoneAppNotification","succeeded":false,"authenticationStepResultDetail":"User did not respond"}],"correlationId":"e4198cfb-4567-8901-bcde-f23456789012","userType":"Member"}'
+            },
+            {
+                title: 'Audit — Create User',
+                log: '{"id":"88gc76gd-8523-6gg7-dg84-117c971d2322","activityDisplayName":"Add user","activityDateTime":"2026-03-07T12:00:00Z","category":"UserManagement","operationType":"Add","result":"success","resultReason":"","loggedByService":"Core Directory","correlationId":"f5209dfc-5678-9012-cdef-345678901234","initiatedBy":{"user":{"displayName":"Admin User","userPrincipalName":"admin@contoso.com","id":"d4e5f6a7-b8c9-0123-defa-456789012345","ipAddress":"10.0.0.50"}},"targetResources":[{"displayName":"New Employee","id":"e5f6a7b8-c9d0-1234-efab-567890123456","type":"User","userPrincipalName":"newemployee@contoso.com","modifiedProperties":[{"displayName":"AccountEnabled","oldValue":null,"newValue":"true"},{"displayName":"DisplayName","oldValue":null,"newValue":"New Employee"},{"displayName":"UserPrincipalName","oldValue":null,"newValue":"newemployee@contoso.com"}]}],"additionalDetails":[{"key":"UserAgent","value":"Mozilla/5.0 (Windows NT 10.0; Win64; x64)"},{"key":"OperationId","value":"op-12345"}]}'
+            },
+            {
+                title: 'Audit — Add Member to Group',
+                log: '{"id":"99hd87he-9634-7hh8-eh95-228d082e3433","activityDisplayName":"Add member to group","activityDateTime":"2026-03-07T12:05:00Z","category":"GroupManagement","operationType":"Add","result":"success","resultReason":"","loggedByService":"Core Directory","correlationId":"a6310efd-6789-0123-defa-456789012345","initiatedBy":{"user":{"displayName":"Admin User","userPrincipalName":"admin@contoso.com","id":"d4e5f6a7-b8c9-0123-defa-456789012345","ipAddress":"10.0.0.50"}},"targetResources":[{"displayName":"Marketing Team","id":"f6a7b8c9-d0e1-2345-fabc-678901234567","type":"Group","modifiedProperties":[{"displayName":"Members","oldValue":null,"newValue":"newemployee@contoso.com"}]},{"displayName":"New Employee","id":"e5f6a7b8-c9d0-1234-efab-567890123456","type":"User","userPrincipalName":"newemployee@contoso.com"}]}'
+            },
+            {
+                title: 'Provisioning Event',
+                log: '{"id":"aahf98if-0745-8ii9-fi06-339e193f4544","activityDateTime":"2026-03-07T13:00:00Z","provisioningAction":"Create","provisioningStatusInfo":{"status":"success"},"sourceSystem":{"displayName":"Azure Active Directory","id":"src-sys-001"},"targetSystem":{"displayName":"Salesforce","id":"tgt-sys-001"},"sourceIdentity":{"displayName":"New Employee","id":"e5f6a7b8-c9d0-1234-efab-567890123456","type":"User"},"targetIdentity":{"displayName":"New Employee","id":"005xx000001Sv4h","type":"User"},"servicePrincipal":{"displayName":"Salesforce Provisioning","id":"sp-salesforce-001"},"jobId":"SalesforceProvisioning.abc123","cycleId":"cycle-789","changeId":"change-456","durationInMilliseconds":1234,"provisioningSteps":[{"name":"EntryImport","provisioningStepType":"import","status":"success","description":"Retrieved user from Azure AD"},{"name":"ObjectMatching","provisioningStepType":"matching","status":"success","description":"Matched user to target"},{"name":"EntryExport","provisioningStepType":"export","status":"success","description":"Created user in Salesforce"}],"modifiedProperties":[{"displayName":"email","oldValue":null,"newValue":"newemployee@contoso.com"},{"displayName":"displayName","oldValue":null,"newValue":"New Employee"}]}'
+            },
+            {
+                title: 'Risk Detection (Impossible Travel)',
+                log: '{"id":"bbig09jg-1856-9jj0-gj17-440f204g5655","riskEventType":"impossibleTravel","riskLevel":"high","riskState":"atRisk","riskDetail":"none","detectedDateTime":"2026-03-07T14:45:00Z","lastUpdatedDateTime":"2026-03-07T15:00:00Z","userDisplayName":"Bob Johnson","userPrincipalName":"bjohnson@contoso.com","userId":"c2d3e4f5-a6b7-8901-cdef-234567890abc","ipAddress":"198.51.100.77","location":{"city":"London","state":"London","countryOrRegion":"GB"},"detectionTimingType":"offline","activity":"signin","source":"Identity Protection","tokenIssuerType":"AzureAD","additionalInfo":[{"Key":"previousIPAddress","Value":"203.0.113.42"},{"Key":"previousLocation","Value":"Seattle, US"},{"Key":"timeBetweenEvents","Value":"45 minutes"}]}'
+            }
+        ]
+    },
     barracuda: {
         id: 'barracuda',
         name: 'Barracuda CloudGen Firewall (8.x/9.x)',
         emoji: '🐟',
         description: 'Barracuda Networks CloudGen/NG Firewall logs (Firmware 8.x/9.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Forwarding Firewall Allow',
@@ -38,6 +71,7 @@ export const logFormats = {
         name: 'Check Point (R81.x)',
         emoji: '🔷',
         description: 'Check Point firewall logs (R81.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Traffic Accept',
@@ -70,6 +104,7 @@ export const logFormats = {
         name: 'Cisco Firepower (FTD 6.x/7.x)',
         emoji: '🛡️',
         description: 'Cisco Firepower Threat Defense syslog logs (FTD 6.x/7.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Connection Allow',
@@ -98,6 +133,7 @@ export const logFormats = {
         name: 'FortiGate (FortiOS 7.x)',
         emoji: '🔥',
         description: 'Fortinet FortiGate firewall logs (FortiOS 7.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Traffic Allow',
@@ -126,6 +162,7 @@ export const logFormats = {
         name: 'Juniper SRX (Junos OS 12.x/15.x+)',
         emoji: '🌲',
         description: 'Juniper Networks SRX firewall structured syslog (Junos OS 12.x/15.x+)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Session Create',
@@ -149,11 +186,78 @@ export const logFormats = {
             }
         ]
     },
+    okta: {
+        id: 'okta',
+        name: 'Okta',
+        emoji: '🔐',
+        description: 'Okta System Log events — authentication, lifecycle, security, and admin operations (JSON)',
+        category: 'identity',
+        examples: [
+            {
+                title: 'User Sign-In Success',
+                log: '{"uuid":"f3c7e5a2-1b4d-4f8e-9c6a-0d2e8f7b1a3c","published":"2026-03-07T14:30:00.000Z","eventType":"user.session.start","version":"0","severity":"INFO","displayMessage":"User login to Okta","actor":{"id":"00u1a2b3c4d5e6f7g8","type":"User","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"},"outcome":{"result":"SUCCESS","reason":null},"target":[{"id":"00u1a2b3c4d5e6f7g8","type":"User","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"}],"client":{"userAgent":{"rawUserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0","os":"Windows 10","browser":"Chrome"},"zone":"Corporate Network","device":"Computer","ipAddress":"203.0.113.42","geographicalContext":{"city":"Seattle","state":"Washington","country":"United States","postalCode":"98101","geolocation":{"lat":47.6062,"lon":-122.3321}}},"authenticationContext":{"authenticationProvider":"OKTA_AUTHENTICATION_PROVIDER","credentialProvider":"OKTA_CREDENTIAL_PROVIDER","credentialType":"PASSWORD","externalSessionId":"trs8cVH0RuSnFPJxJnHQzg"},"securityContext":{"asNumber":8075,"asOrg":"Microsoft Corporation","isp":"Microsoft Corporation","domain":"microsoft.com","isProxy":false},"transaction":{"id":"WcKpz1uPQsqlROjhKvacFg","type":"WEB"},"debugContext":{"debugData":{"requestUri":"/api/v1/authn","dtHash":"a1b2c3d4e5f67890","behaviors":"{\\"New Geo-Location\\":\\"NEGATIVE\\",\\"New Device\\":\\"NEGATIVE\\",\\"New IP\\":\\"NEGATIVE\\"}","risk":"{\\"level\\":\\"LOW\\",\\"reasons\\":\\"Okta detected low risk\\"}"}},"request":{"ipChain":[{"ip":"203.0.113.42","geographicalContext":{"city":"Seattle","state":"Washington","country":"United States"},"version":"V4","source":null}]}}'
+            },
+            {
+                title: 'User MFA Challenge',
+                log: '{"uuid":"a4d8f6b3-2c5e-5a9f-0d7b-1e3f9a8c2b4d","published":"2026-03-07T14:31:00.000Z","eventType":"user.authentication.auth_via_mfa","version":"0","severity":"INFO","displayMessage":"Authentication of user via MFA","actor":{"id":"00u1a2b3c4d5e6f7g8","type":"User","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"},"outcome":{"result":"SUCCESS","reason":null},"target":[{"id":"00u1a2b3c4d5e6f7g8","type":"User","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"},{"id":"opf1a2b3c4d5e6f7g8","type":"AuthenticatorEnrollment","displayName":"Okta Verify","alternateId":"OKTA_VERIFY"}],"client":{"userAgent":{"rawUserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0","os":"Windows 10","browser":"Chrome"},"zone":"Corporate Network","device":"Computer","ipAddress":"203.0.113.42","geographicalContext":{"city":"Seattle","state":"Washington","country":"United States","geolocation":{"lat":47.6062,"lon":-122.3321}}},"authenticationContext":{"authenticationProvider":"OKTA_AUTHENTICATION_PROVIDER","credentialProvider":"OKTA_CREDENTIAL_PROVIDER","credentialType":"OTP","externalSessionId":"trs8cVH0RuSnFPJxJnHQzg"},"transaction":{"id":"WcKpz1uPQsqlROjhKvacFg","type":"WEB"},"debugContext":{"debugData":{"factor":"OKTA_VERIFY_PUSH","factorIntent":"AUTHENTICATION","requestUri":"/api/v1/authn/factors/verify"}}}'
+            },
+            {
+                title: 'User Lifecycle Create',
+                log: '{"uuid":"b5e9a7c4-3d6f-6b0a-1e8c-2f4a0b9d3c5e","published":"2026-03-07T12:00:00.000Z","eventType":"user.lifecycle.create","version":"0","severity":"INFO","displayMessage":"Create okta user","actor":{"id":"00u9z8y7x6w5v4u3t2","type":"User","displayName":"Admin User","alternateId":"admin@contoso.com"},"outcome":{"result":"SUCCESS","reason":null},"target":[{"id":"00u2b3c4d5e6f7g8h9","type":"User","displayName":"New Employee","alternateId":"newemployee@contoso.com","detailEntry":{"firstName":"New","lastName":"Employee","email":"newemployee@contoso.com"}}],"client":{"userAgent":{"rawUserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/122.0","os":"Windows 10","browser":"Edge"},"device":"Computer","ipAddress":"10.0.0.50","geographicalContext":{"city":"San Francisco","state":"California","country":"United States"}},"transaction":{"id":"Y5N3cW3DQH2LdCIBhBc6","type":"WEB"},"debugContext":{"debugData":{"changedAttributes":"firstName,lastName,email,login,mobilePhone","requestUri":"/api/v1/users"}}}'
+            },
+            {
+                title: 'Application SSO',
+                log: '{"uuid":"c6f0b8d5-4e7a-7c1b-2f9d-3a5b1c0e4d6f","published":"2026-03-07T14:45:00.000Z","eventType":"user.authentication.sso","version":"0","severity":"INFO","displayMessage":"User single sign on to app","actor":{"id":"00u1a2b3c4d5e6f7g8","type":"User","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"},"outcome":{"result":"SUCCESS","reason":null},"target":[{"id":"0oa3c4d5e6f7g8h9i0","type":"AppInstance","displayName":"Salesforce","alternateId":"Salesforce"},{"id":"00u1a2b3c4d5e6f7g8","type":"AppUser","displayName":"Jane Smith","alternateId":"jsmith@contoso.com"}],"client":{"userAgent":{"rawUserAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) Safari/17.3","os":"Mac OS X","browser":"Safari"},"device":"Computer","ipAddress":"203.0.113.42","geographicalContext":{"city":"Seattle","state":"Washington","country":"United States"}},"authenticationContext":{"externalSessionId":"trs8cVH0RuSnFPJxJnHQzg"},"transaction":{"id":"XkL9mN2OPqRsTuVwXyZa","type":"WEB"},"debugContext":{"debugData":{"signOnMode":"SAML_2_0","initiationType":"IDP_INITIATED","requestUri":"/app/salesforce/sso/saml"}}}'
+            },
+            {
+                title: 'Group Membership Add',
+                log: '{"uuid":"d7a1c9e6-5f8b-8d2c-3a0e-4b6c2d1f5e7a","published":"2026-03-07T12:05:00.000Z","eventType":"group.user_membership.add","version":"0","severity":"INFO","displayMessage":"Add user to group membership","actor":{"id":"00u9z8y7x6w5v4u3t2","type":"User","displayName":"Admin User","alternateId":"admin@contoso.com"},"outcome":{"result":"SUCCESS","reason":null},"target":[{"id":"00g4d5e6f7g8h9i0j1","type":"UserGroup","displayName":"Engineering Team","alternateId":"Engineering Team"},{"id":"00u2b3c4d5e6f7g8h9","type":"User","displayName":"New Employee","alternateId":"newemployee@contoso.com"}],"client":{"userAgent":{"rawUserAgent":"Mozilla/5.0 (Windows NT 10.0) Edge/122.0","os":"Windows 10","browser":"Edge"},"device":"Computer","ipAddress":"10.0.0.50"},"transaction":{"id":"Abc12DeFgHiJkLm34nO","type":"WEB"},"debugContext":{"debugData":{"requestUri":"/api/v1/groups/00g4d5.../users/00u2b3..."}}}'
+            },
+            {
+                title: 'Suspicious Activity (Failed Login)',
+                log: '{"uuid":"e8b2d0f7-6a9c-9e3d-4b1f-5c7d3e2a6f8b","published":"2026-03-07T15:15:00.000Z","eventType":"user.session.start","version":"0","severity":"WARN","displayMessage":"User login to Okta","actor":{"id":"00u5e6f7g8h9i0j1k2","type":"User","displayName":"Bob Johnson","alternateId":"bjohnson@contoso.com"},"outcome":{"result":"FAILURE","reason":"INVALID_CREDENTIALS"},"target":[{"id":"00u5e6f7g8h9i0j1k2","type":"User","displayName":"Bob Johnson","alternateId":"bjohnson@contoso.com"}],"client":{"userAgent":{"rawUserAgent":"python-requests/2.28.0","os":"Unknown","browser":"UNKNOWN"},"zone":null,"device":"Unknown","ipAddress":"198.51.100.77","geographicalContext":{"city":"Moscow","state":"Moscow","country":"Russia","geolocation":{"lat":55.7558,"lon":37.6173}}},"securityContext":{"asNumber":48642,"asOrg":"Hosting Provider LLC","isp":"Hosting Provider LLC","domain":"hostprov.ru","isProxy":true},"authenticationContext":{"credentialType":"PASSWORD"},"transaction":{"id":"ZzYyXxWwVvUuTtSsRr","type":"WEB"},"debugContext":{"debugData":{"requestUri":"/api/v1/authn","threatSuspected":"true","behaviors":"{\\"New Geo-Location\\":\\"POSITIVE\\",\\"New Device\\":\\"POSITIVE\\",\\"New IP\\":\\"POSITIVE\\"}","risk":"{\\"level\\":\\"HIGH\\",\\"reasons\\":\\"Anomalous device,Anomalous location,Anomalous IP\\"}"}}}'
+            }
+        ]
+    },
+    'ping-identity': {
+        id: 'ping-identity',
+        name: 'Ping Identity (PingOne)',
+        emoji: '🏓',
+        description: 'PingOne Platform audit activity logs — authentication, user lifecycle, MFA, and admin events (JSON)',
+        category: 'identity',
+        examples: [
+            {
+                title: 'Authentication Success',
+                log: '{"id":"evt-a1b2c3d4-e5f6-7890-abcd-ef1234567890","recordedAt":"2026-03-07T14:30:00.000Z","createdAt":"2026-03-07T14:30:00.000Z","action":{"type":"AUTHENTICATION","description":"User Authentication"},"actors":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User","environment":{"id":"env-prod-001"},"population":{"id":"pop-default"}}},{"client":{"id":"app-web-portal-001","name":"Customer Portal","type":"CLIENT","environment":{"id":"env-prod-001"}}}],"resources":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User","population":{"id":"pop-default"}}},{"application":{"id":"app-web-portal-001","name":"Customer Portal","type":"OIDC"}}],"result":{"status":"SUCCESS","description":"Successful authentication"},"tags":["identityActivity","SUCCESS"],"correlationId":"corr-f1e2d3c4-b5a6-7890","session":{"id":"sess-a1b2c3d4-e5f6"},"environment":{"id":"env-prod-001"},"request":{"ipAddress":"203.0.113.42","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0"},"location":{"city":"Seattle","state":"Washington","country":"US","latitude":47.6062,"longitude":-122.3321},"authentication":{"authMethod":"PASSWORD","flowType":"LOGIN","protocol":"OPENID_CONNECT"}}'
+            },
+            {
+                title: 'MFA Challenge',
+                log: '{"id":"evt-b2c3d4e5-f6a7-8901-bcde-f23456789012","recordedAt":"2026-03-07T14:31:00.000Z","createdAt":"2026-03-07T14:31:00.000Z","action":{"type":"MFA.CHECK","description":"MFA Check"},"actors":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User"}}],"resources":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User"}}],"result":{"status":"SUCCESS","description":"MFA challenge passed"},"tags":["identityActivity","SUCCESS"],"correlationId":"corr-f1e2d3c4-b5a6-7890","session":{"id":"sess-a1b2c3d4-e5f6"},"environment":{"id":"env-prod-001"},"request":{"ipAddress":"203.0.113.42","userAgent":"Mozilla/5.0 (Windows NT 10.0) Chrome/122.0.0.0"},"mfa":{"factorType":"PUSH","status":"PASSED","device":{"id":"dev-push-001","type":"MOBILE"}}}'
+            },
+            {
+                title: 'User Created',
+                log: '{"id":"evt-c3d4e5f6-a7b8-9012-cdef-345678901234","recordedAt":"2026-03-07T12:00:00.000Z","createdAt":"2026-03-07T12:00:00.000Z","action":{"type":"USER.CREATED","description":"User Created"},"actors":[{"user":{"id":"usr-admin-001","name":"Admin User","type":"Administrator"}},{"client":{"id":"app-admin-console","name":"PingOne Admin Console","type":"PING_ONE_ADMIN_CONSOLE"}}],"resources":[{"user":{"id":"usr-new-emp-001","name":"New Employee","type":"User","population":{"id":"pop-default"},"environment":{"id":"env-prod-001"}}}],"result":{"status":"SUCCESS","description":"User created successfully"},"tags":["adminActivity","SUCCESS"],"correlationId":"corr-a2b3c4d5-e6f7-8901","environment":{"id":"env-prod-001"},"request":{"ipAddress":"10.0.0.50","userAgent":"Mozilla/5.0 (Windows NT 10.0) Edge/122.0"}}'
+            },
+            {
+                title: 'Application SSO (SAML)',
+                log: '{"id":"evt-d4e5f6a7-b8c9-0123-defa-456789012345","recordedAt":"2026-03-07T14:45:00.000Z","createdAt":"2026-03-07T14:45:00.000Z","action":{"type":"AUTHENTICATION","description":"User Authentication"},"actors":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User"}},{"client":{"id":"app-salesforce-001","name":"Salesforce","type":"CLIENT"}}],"resources":[{"user":{"id":"usr-a1b2c3d4-e5f6-7890","name":"Jane Smith","type":"User"}},{"application":{"id":"app-salesforce-001","name":"Salesforce","type":"SAML"}}],"result":{"status":"SUCCESS","description":"SSO authentication successful"},"tags":["identityActivity","SUCCESS"],"correlationId":"corr-b3c4d5e6-f7a8-9012","session":{"id":"sess-a1b2c3d4-e5f6"},"environment":{"id":"env-prod-001"},"authentication":{"authMethod":"PASSWORD","flowType":"LOGIN","protocol":"SAML"}}'
+            },
+            {
+                title: 'Group Membership Add',
+                log: '{"id":"evt-e5f6a7b8-c9d0-1234-efab-567890123456","recordedAt":"2026-03-07T12:05:00.000Z","createdAt":"2026-03-07T12:05:00.000Z","action":{"type":"GROUP_MEMBERSHIP.CREATED","description":"User added to group"},"actors":[{"user":{"id":"usr-admin-001","name":"Admin User","type":"Administrator"}}],"resources":[{"group":{"id":"grp-eng-001","name":"Engineering Team"}},{"user":{"id":"usr-new-emp-001","name":"New Employee","type":"User"}}],"result":{"status":"SUCCESS","description":"Group membership created"},"tags":["adminActivity","SUCCESS"],"correlationId":"corr-c4d5e6f7-a8b9-0123","environment":{"id":"env-prod-001"},"request":{"ipAddress":"10.0.0.50"}}'
+            },
+            {
+                title: 'Risk Evaluation (High Risk)',
+                log: '{"id":"evt-f6a7b8c9-d0e1-2345-fabc-678901234567","recordedAt":"2026-03-07T15:15:00.000Z","createdAt":"2026-03-07T15:15:00.000Z","action":{"type":"RISK_EVALUATION.CREATED","description":"Risk Evaluation Created"},"actors":[{"user":{"id":"usr-b2c3d4e5-f6a7-8901","name":"Bob Johnson","type":"User"}}],"resources":[{"user":{"id":"usr-b2c3d4e5-f6a7-8901","name":"Bob Johnson","type":"User"}}],"result":{"status":"SUCCESS","description":"Risk evaluation completed"},"tags":["identityActivity","SUCCESS"],"correlationId":"corr-d5e6f7a8-b9c0-1234","environment":{"id":"env-prod-001"},"request":{"ipAddress":"198.51.100.77","userAgent":"python-requests/2.28.0"},"location":{"city":"Moscow","state":"Moscow","country":"RU","latitude":55.7558,"longitude":37.6173},"risk":{"level":"HIGH","score":87,"predictors":"ANONYMOUS_NETWORK, IMPOSSIBLE_TRAVEL, NEW_DEVICE","policyId":"rpol-default-001","policyName":"Default Risk Policy","result":"DENY"}}'
+            }
+        ]
+    },
     paloalto: {
         id: 'paloalto',
         name: 'Palo Alto (PAN-OS 11.x)',
         emoji: '🔶',
         description: 'Palo Alto Networks firewall logs (PAN-OS 11.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Traffic Allow',
@@ -186,6 +290,7 @@ export const logFormats = {
         name: 'SonicWall (SonicOS 6.5/7.x)',
         emoji: '🔶',
         description: 'SonicWall firewall Enhanced Syslog format (SonicOS 6.5/7.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Connection Opened',
@@ -214,6 +319,7 @@ export const logFormats = {
         name: 'Ubiquiti UniFi/EdgeRouter (UniFi OS)',
         emoji: '🔷',
         description: 'Ubiquiti UniFi (USG/UDM) and EdgeRouter logs (UniFi OS)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Firewall Drop (WAN_LOCAL)',
@@ -242,6 +348,7 @@ export const logFormats = {
         name: 'WatchGuard Firebox (Fireware OS 12.x)',
         emoji: '🔥',
         description: 'WatchGuard Firebox syslog format (Fireware OS 12.x)',
+        category: 'firewall',
         examples: [
             {
                 title: 'Traffic Allow (HTTPS)',
@@ -296,8 +403,47 @@ export function autoDetectLogFormat(logText) {
     if (!logText || typeof logText !== 'string') {
         return null;
     }
-
     const text = logText.trim();
+
+    // Microsoft Entra ID detection - JSON-based logs with Entra-specific fields
+    if (text.startsWith('{') || text.startsWith('[')) {
+        // Sign-In log detection
+        if (text.includes('"userPrincipalName"') && text.includes('"appDisplayName"')) {
+            return 'entra-id';
+        }
+        // Audit log detection
+        if (text.includes('"activityDisplayName"') && text.includes('"targetResources"')) {
+            return 'entra-id';
+        }
+        // Provisioning log detection
+        if (text.includes('"provisioningAction"') || text.includes('"provisioningStatusInfo"')) {
+            return 'entra-id';
+        }
+        // Risk Detection log detection
+        if (text.includes('"riskEventType"') && text.includes('"riskLevel"')) {
+            return 'entra-id';
+        }
+        // Generic Entra ID detection — look for common Entra ID fields
+        if (text.includes('"conditionalAccessStatus"') || text.includes('"authenticationRequirement"')) {
+            return 'entra-id';
+        }
+        // Okta System Log detection — look for Okta-specific field combination
+        if (text.includes('"eventType"') && text.includes('"actor"') && text.includes('"outcome"')) {
+            return 'okta';
+        }
+        // Okta fallback — check for Okta-specific event type patterns or debugContext
+        if (text.includes('"debugContext"') && text.includes('"transaction"') && text.includes('"published"')) {
+            return 'okta';
+        }
+        // Ping Identity (PingOne) detection — look for PingOne-specific field combination
+        if (text.includes('"action"') && text.includes('"actors"') && text.includes('"resources"')) {
+            return 'ping-identity';
+        }
+        // PingOne fallback — check for PingOne-specific fields
+        if (text.includes('"recordedAt"') && text.includes('"result"') && text.includes('"tags"')) {
+            return 'ping-identity';
+        }
+    }
 
     // FortiGate detection - looks for key=value pairs with specific FortiGate fields
     if (text.includes('devname=') && text.includes('logid=') &&
